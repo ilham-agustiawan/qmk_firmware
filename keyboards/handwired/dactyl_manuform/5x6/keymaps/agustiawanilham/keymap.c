@@ -58,9 +58,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         KC_LSFT, QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      KC_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,QHOME_SLSH,KC_RSFT,
                          KC_PGUP,KC_PGDN,                                                       KC_LBRC, KC_RBRC,
                                             MO(CURSOR),  LT(NUMBER,KC_BSPC),                              KC_SPC, MO(SYMBOL),
-                                               KC_RGHT,  KC_ESC,                          KC_ENT, OSM(MOD_LSFT),
-                                               KC_LEFT,  LT(FUNCTION,KC_DEL),                           KC_UP,  KC_DOWN
+                                               KC_LEFT,  KC_ESC,                          KC_ENT, OSM(MOD_LSFT),
+                                               KC_RGHT,  LT(FUNCTION,KC_DEL),                           KC_UP,  KC_DOWN
     ),
+
 
     [CURSOR] = LAYOUT_5x6(
         QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          _______,_______,_______,_______,_______,_______,
