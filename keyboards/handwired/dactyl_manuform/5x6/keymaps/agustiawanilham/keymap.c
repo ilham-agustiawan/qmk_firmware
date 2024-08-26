@@ -65,7 +65,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [CURSOR] = LAYOUT_5x6(
         QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          _______,_______,_______,_______,_______,_______,
         _______,_______,_______,_______,_______,_______,                          KC_COPY, KC_TAB , S(KC_TAB), _______ ,KC_PSTE,_______,
-        _______,_______,_______,_______,_______,_______,                          KC_LEFT , KC_DOWN , KC_UP ,KC_RGHT,CAPS_WORD,KC_CAPS,
+        _______,_______,_______,_______,C(KC_F),_______,                          KC_LEFT , KC_DOWN , KC_UP ,KC_RGHT,CAPS_WORD,KC_CAPS,
         _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME , KC_PGDN , KC_PGUP ,KC_END,_______,LCTL(KC_A),
                                                 _______,_______,            _______, _______,
                                                 _______,_______,            _______,_______,
