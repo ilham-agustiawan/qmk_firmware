@@ -64,11 +64,11 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
 
     [CURSOR] = LAYOUT_5x6(
-        QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          _______,_______,_______,_______,_______,_______,
-        _______,_______,_______,_______,_______,_______,                          KC_COPY, KC_TAB , S(KC_TAB), _______ ,KC_PSTE,_______,
-        _______,_______,_______,_______,C(KC_F),_______,                          KC_LEFT , KC_DOWN , KC_UP ,KC_RGHT,CAPS_WORD,KC_CAPS,
-        _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME , KC_PGDN , KC_PGUP ,KC_END,_______,LCTL(KC_A),
-                                                _______,_______,            _______, _______,
+        QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          G(KC_C),_______,_______,_______,G(KC_V),_______,
+        _______,_______,_______,_______,_______,_______,                          C(KC_INS), KC_TAB , S(KC_TAB), G(KC_SPC) ,S(KC_INS),_______,
+        _______,_______,_______,_______,C(KC_F),_______,                          KC_LEFT, KC_DOWN , KC_UP ,KC_RGHT,CAPS_WORD,KC_CAPS,
+        _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME, KC_PGDN , KC_PGUP ,KC_END,_______,LCTL(KC_A),
+                                                _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______
@@ -100,10 +100,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     ),
 
     [SYMBOL] = LAYOUT_5x6(
-          KC_SLSH , KC_LBRC , KC_LPRN, KC_RPRN , KC_RBRC , KC_QUES ,              _______  , _______ , _______ , _______ ,_______ ,_______ ,
-          KC_AT,KC_LCBR,KC_DQUO,KC_QUOT,KC_RCBR,KC_GRV,                        _______,_______,_______,_______ ,_______,_______,
-          KC_HASH,KC_CIRC,KC_EQL  ,KC_UNDS,KC_DLR,KC_PERC,                        _______,_______,_______,_______,_______,_______,
-          KC_EXLM,KC_LT,KC_PIPE,KC_MINS,KC_GT,KC_TILD,                        _______,_______,_______,_______,_______,_______,
+          KC_SLSH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,              _______  , _______ , _______ , _______ ,_______ ,_______ ,
+          KC_AT,   KC_LCBR, KC_DQUO, KC_QUOT, KC_RCBR, KC_GRV,                        _______,_______,_______,_______ ,_______,_______,
+          KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS, KC_DLR,  KC_PERC,                        _______,_______,_______,_______,_______,_______,
+          KC_EXLM, KC_LT,   KC_PIPE, KC_ASTR, KC_GT,   KC_TILD,                        _______,KC_RCTL,KC_RSFT,KC_RALT,KC_RGUI,_______,
                           KC_AMPR,KC_PLUS,                                    _______ ,_______,
                                                   _______,KC_COLN,            _______,_______,
                                                   _______,_______,            _______,_______,
