@@ -3,6 +3,7 @@ EXTRAKEY_ENABLE = yes
 LTO_ENABLE = yes
 RGBLIGHT_ENABLE = no
 BOOTMAGIC_ENABLE = no
+MOUSEKEY_ENABLE = yes
 
 # https://github.com/getreuer/qmk-keymap
 

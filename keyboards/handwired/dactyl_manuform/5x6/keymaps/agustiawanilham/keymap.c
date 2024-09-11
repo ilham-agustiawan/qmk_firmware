@@ -8,6 +8,7 @@ enum layers {
   NUMBER,
   FUNCTION,
   SYMBOL,
+  MOUSE,
 };
 
 enum custom_keycodes {
@@ -39,6 +40,7 @@ enum custom_keycodes {
 #define QHOME_SLSH RGUI_T(KC_SLSH)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
+#define COPY_LNX LCTL(KC_C)
 
 // This keymap uses home row mods. In addition to mods, I have home row
 // layer-tap keys for the SYM layer. The key arrangement is a variation on
@@ -57,7 +59,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         KC_ESC,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  KC_SCLN, KC_QUOT,
         KC_LSFT, QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      KC_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,QHOME_SLSH,KC_RSFT,
                          KC_PGUP,KC_PGDN,                                                       KC_LBRC, KC_RBRC,
-                                            MO(CURSOR),  LT(NUMBER,KC_BSPC),                              KC_SPC, MO(SYMBOL),
+                                            MO(CURSOR),  LT(NUMBER,KC_BSPC),                          LT(MOUSE,KC_SPC), MO(SYMBOL),
                                                KC_LEFT,  KC_ESC,                          KC_ENT, OSM(MOD_LSFT),
                                                KC_RGHT,  LT(FUNCTION,KC_DEL),                           KC_UP,  KC_DOWN
     ),
@@ -65,7 +67,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
     [CURSOR] = LAYOUT_5x6(
         QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          G(KC_C),_______,_______,_______,G(KC_V),_______,
-        _______,_______,_______,_______,_______,_______,                          C(KC_INS), KC_TAB , S(KC_TAB), G(KC_SPC) ,S(KC_INS),_______,
+        _______,_______,C(KC_W),_______,_______,_______,                          COPY_LNX, KC_TAB , S(KC_TAB), G(KC_SPC),S(KC_INS),_______,
         _______,_______,_______,_______,C(KC_F),_______,                          KC_LEFT, KC_DOWN , KC_UP ,KC_RGHT,CAPS_WORD,KC_CAPS,
         _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME, KC_PGDN , KC_PGUP ,KC_END,_______,LCTL(KC_A),
                                                 _______,_______,            _______,_______,
@@ -108,6 +110,17 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
                                                   _______,KC_COLN,            _______,_______,
                                                   _______,_______,            _______,_______,
                                                   _______,_______,            _______,_______
+    ),
+    [MOUSE] = LAYOUT_5x6(
+        _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
+        _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
+        _______,KC_ACL1,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,_______,_______,_______,_______,_______,
+        _______,KC_ACL2,KC_ACL0,KC_WH_D,KC_WH_U,_______,                             _______,KC_RCTL,KC_RSFT,KC_RALT,KC_RGUI,_______,
+                                      _______,_______,                            _______ ,_______,
+                                                KC_BTN1,KC_BTN2,            _______,_______,
+                                                _______,KC_BTN3,            _______,_______,
+                                                _______,KC_BTN4,            _______,_______
+
     ),
 };
 
