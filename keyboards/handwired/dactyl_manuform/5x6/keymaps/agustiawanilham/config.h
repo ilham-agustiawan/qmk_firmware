@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* QMK */
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 180
+#define TAPPING_TERM 150
 #define PERMISSIVE_HOLD
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define QUICK_TAP_TERM 0
@@ -32,6 +32,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // When idle, turn off Caps Word after 5 seconds.
 #define CAPS_WORD_IDLE_TIMEOUT 5000
+
+#define SELECT_WORD_TIMEOUT 2000  // When idle, clear state after 2 seconds.
+
+#define ACHORDION_STREAK
 
 // Use Left Ctrl + Right Ctrl to activate the Command feature.
 #define IS_COMMAND() (get_mods() == MOD_MASK_CTRL)
