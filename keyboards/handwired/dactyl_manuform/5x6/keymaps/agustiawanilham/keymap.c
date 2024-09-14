@@ -1,10 +1,10 @@
 #include "features/achordion.h"
-#include "features/select_word.h"
 
 #include QMK_KEYBOARD_H
 
 enum layers {
-  BASE,
+  WIN,
+  MAC,
   CURSOR,
   NUMBER,
   FUNCTION,
@@ -28,49 +28,52 @@ enum custom_keycodes {
   CAPS_WORD,
 };
 
-// Home row mods for QWERTY layer.
+// Home row mods for QWERTY layer for windows and linux
 #define QHOME_Z LGUI_T(KC_Z)
 #define QHOME_X LALT_T(KC_X)
 #define QHOME_C LSFT_T(KC_C)
 #define QHOME_V LCTL_T(KC_V)
 #define QHOME_B HYPR_T(KC_B)
 
-#define QHOME_M    RCTL_T(KC_M)
+#define QHOME_M    LCTL_T(KC_M)
 #define QHOME_COMM RSFT_T(KC_COMM)
 #define QHOME_DOT  RALT_T(KC_DOT)
-#define QHOME_SLSH RGUI_T(KC_SLSH)
+#define QHOME_SLSH LGUI_T(KC_SLSH)
+#define QHOME_N HYPR_T(KC_N)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
 
-// This keymap uses home row mods. In addition to mods, I have home row
-// layer-tap keys for the SYM layer. The key arrangement is a variation on
-// "GASC-order" home row mods:
-//
+// For windows and linux
 //             Left hand                          Right hand
 // +-------+-------+-------+-------+   +-------+-------+-------+-------+
-// |  Gui  |  Alt  | Shift | Ctrl  |   | Ctrl  | Shift |  Alt  |  Gui  |
+// |  Gui  |  Alt  | Ctrl  | Shift |   | Shift | Ctrl  |  Alt  |  Gui  |
 // +-------+-------+-------+-------+   +-------+-------+-------+-------+
 
 
+// For mac
+//             Left hand                          Right hand
+// +-------+-------+-------+-------+   +-------+-------+-------+-------+
+// |  Ctrl  |  Alt  | Gui  | Shift |   | Shift |  Gui |  Alt  |  Ctrl  |
+// +-------+-------+-------+-------+   +-------+-------+-------+-------+
+
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
-    [BASE] = LAYOUT_5x6(
+    [WIN] = LAYOUT_5x6(
         KC_EQL,        KC_1,   KC_2,   KC_3,   KC_4,   KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
         KC_TAB,        KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
         KC_ESC,        KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  KC_SCLN, KC_QUOT,
-        OSM(MOD_LSFT), QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      KC_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,QHOME_SLSH,KC_RSFT,
+        OSM(MOD_LSFT), QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,QHOME_SLSH,KC_RSFT,
                          KC_PGUP,KC_PGDN,                                                       KC_LBRC, KC_RBRC,
                                             MO(CURSOR),  LT(NUMBER,KC_BSPC),                          LT(MOUSE,KC_SPC), MO(SYMBOL),
                                                KC_LEFT,  KC_ESC,                                        KC_ENT, KC_TAB,
                                                KC_RGHT,  LT(FUNCTION,KC_DEL),                           KC_UP,  KC_DOWN
     ),
 
-
     [CURSOR] = LAYOUT_5x6(
-        QK_BOOT,_______,_______,_______,_______,DB_TOGG,                          _______,_______,_______,_______,_______,_______,
-        G(KC_TAB),_______,C(KC_W),_______,_______,_______,                        C(KC_INS), KC_TAB,  S(KC_TAB), G(KC_SPC),S(KC_INS),SELWORD,
-        _______,_______,_______,_______,C(KC_F),_______,                          KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
-        _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   SELWORD, LCTL(KC_A),
-                                        G(KC_C),G(KC_V),                           _______,_______,
+        QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,DB_TOGG,                          _______,_______,_______,_______,_______,_______,
+        RGUI(KC_TAB),_______,RCTL(KC_W),_______,_______,_______,                        RCTL(KC_INS), KC_TAB,  S(KC_TAB),RGUI(KC_SPC),S(KC_INS),_______,
+        _______,_______,_______,_______,RCTL(KC_F),_______,                          KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
+        _______,KC_LGUI,KC_LALT,KC_LSFT,KC_LCTL,_______,                          KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   _______, LCTL(KC_A),
+                                        RGUI(KC_C),RGUI(KC_V),                           _______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______
@@ -114,8 +117,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [MOUSE] = LAYOUT_5x6(
         _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
         _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
-        _______,KC_ACL1,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,_______,_______,_______,_______,_______,
-        _______,KC_ACL2,KC_ACL0,KC_WH_D,KC_WH_U,_______,                             _______,KC_RCTL,KC_RSFT,KC_RALT,KC_RGUI,_______,
+        _______,KC_ACL0,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,_______,_______,_______,_______,_______,
+        _______,KC_ACL1,KC_ACL2,KC_WH_D,KC_WH_U,_______,                             _______,KC_RCTL,KC_RSFT,KC_RALT,KC_RGUI,_______,
                                       _______,_______,                            _______ ,_______,
                                                 KC_BTN1,KC_BTN2,            _______,_______,
                                                 _______,KC_BTN3,            _______,_______,
@@ -168,6 +171,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   // lead to missed triggers in fast typing. Here, returning 0 means we
   // instead want to "force hold" and disable key repeating.
   switch (keycode) {
+    case QHOME_N:
     case QHOME_M:
     case QHOME_X:
     case QHOME_C:
@@ -180,7 +184,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_achordion(keycode, record)) { return false; }
-    if (!process_select_word(keycode, record, SELWORD)) { return false; }
 
     return true;
 }

@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM 170
 #define PERMISSIVE_HOLD
 #define TAPPING_FORCE_HOLD_PER_KEY
+#define QUICK_TAP_TERM 150
 #define QUICK_TAP_TERM_PER_KEY
 
 // When idle, turn off Caps Word after 5 seconds.
@@ -38,7 +39,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Use Left Ctrl + Right Ctrl to activate the Command feature.
 #define IS_COMMAND() (get_mods() == MOD_MASK_CTRL)
-
 
 // Mouse key speed and acceleration.
 #undef MOUSEKEY_DELAY
