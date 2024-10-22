@@ -142,7 +142,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         // Ring fingers
         case QHOME_X:
         case QHOME_DOT:
-            return TAPPING_TERM + 100;
+            return TAPPING_TERM + 50;
 
         // Pinkies
         case QHOME_Z:
@@ -152,12 +152,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         // Middle fingers
         case QHOME_C:
         case QHOME_COMM:
-            return TAPPING_TERM - 30;
+            return TAPPING_TERM;
 
         // Index fingers
         case QHOME_V:
         case QHOME_M:
-            return TAPPING_TERM - 30;
+            return TAPPING_TERM - 20;
 
         default:
             return TAPPING_TERM;
@@ -273,4 +273,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_scan_user(void) {
     achordion_task();
+    if (is_alt_tab_active) {
+        if (IS_LAYER_OFF(CURSOR)){
+            unregister_code(KC_LGUI);
+            is_alt_tab_active = false;
+        }
+    }
 }
