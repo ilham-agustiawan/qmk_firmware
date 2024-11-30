@@ -24,8 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* QMK */
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 170
+#define TAPPING_TERM 160
 #define PERMISSIVE_HOLD
+#define TAPPING_TERM_PER_KEY
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define QUICK_TAP_TERM 0
 #define QUICK_TAP_TERM_PER_KEY
@@ -44,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef MOUSEKEY_DELAY
 #define MOUSEKEY_DELAY          0
 #undef MOUSEKEY_INTERVAL
-#define MOUSEKEY_INTERVAL       16
+#define MOUSEKEY_INTERVAL       20
 #undef MOUSEKEY_WHEEL_DELAY
 #define MOUSEKEY_WHEEL_DELAY    0
 #undef MOUSEKEY_MAX_SPEED

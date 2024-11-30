@@ -29,7 +29,7 @@ enum custom_keycodes {
 #define QHOME_COMM LCTL_T(KC_COMM)
 #define QHOME_DOT  ALT_T(KC_DOT)
 #define QHOME_RBC  RALT_T(KC_RBRC)
-#define QHOME_SLSH LGUI_T(KC_SLSH)
+#define QHOME_SCLN LGUI_T(KC_SCLN)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
 
@@ -50,18 +50,18 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [WIN] = LAYOUT_5x6(
         KC_EQL,        KC_1,   KC_2,   KC_3,   KC_4,   KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
         KC_TAB,        KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-        KC_LCTL,        KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                        KC_H,   KC_J,   KC_K,   KC_L,  KC_SCLN, KC_QUOT,
-        OSM(MOD_LSFT), QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,QHOME_SLSH,KC_RSFT,
+        KC_LCTL,        KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                        KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+        OSM(MOD_LSFT), QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
         KC_PGUP,KC_PGDN,                                                       KC_LBRC, QHOME_RBC,
         MO(CURSOR),  LT(NUMBER,KC_BSPC),                          LT(MOUSE,KC_SPC), MO(SYMBOL),
-        KC_TAB,  KC_ESC,                                        KC_ENT, RGUI(KC_SPC),
-        KC_RGHT,  LT(FUNCTION,KC_DEL),                           OSM(MOD_LSFT), KC_DOWN
+        KC_TAB,  KC_ESC,                                        KC_ENT, QK_REP,
+        RGUI(KC_SPC),  LT(FUNCTION,KC_DEL),                           OSM(MOD_LSFT), KC_DOWN
     ),
 
     [CURSOR] = LAYOUT_5x6(
         QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,DB_TOGG,                                _______,RGUI(KC_GRV),_______,_______,RGUI(KC_V),_______,
         _______,_______,RCTL(KC_W),_______,_______,_______,                             RCTL(KC_INS), KC_TAB,  S(KC_TAB),RGUI(KC_SPC),S(KC_INS),_______,
-        _______,ALT_TAB,_______,_______,RCTL(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
+        _______,ALT_TAB,_______,_______,RCTL(KC_A),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
         _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   _______, _______,
                                         RGUI(KC_C),RGUI(KC_V),                           _______,_______,
         _______,_______,            _______,_______,
@@ -74,7 +74,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         _______,_______,_______,_______,_______,_______,                                 KC_TILD,  KC_DLR,   KC_HASH,   KC_AT,   KC_EXLM,    KC_CIRC,
         _______,_______,_______,_______,_______,_______,                                 KC_LT,    KC_7,     KC_8,      KC_9,    KC_COLN,    KC_PERC,
         _______,_______,_______,_______,_______,_______,                                 KC_GT,    KC_4,     KC_5,      KC_6,    KC_PMNS,    KC_PPLS,
-        _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,         KC_EQL,   KC_1,     KC_2,      KC_3,    KC_PSLS,    KC_PAST,
+        _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,_______,         KC_EQL,   KC_1,     KC_2,      KC_3,    KC_PSLS,    KC_PAST,
         _______,_______,                                      KC_LPRN,  KC_RPRN,
         _______,_______,            _______,KC_0,
         _______,_______,            _______,_______,
@@ -87,7 +87,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         _______,_______,_______,_______,_______,_______,                                   KC_MSEL,  KC_MPLY,   KC_MPRV,    KC_MNXT,   KC_MSTP,    KC_CIRC,
         _______,_______,_______,_______,_______,_______,                                   KC_MAIL,  KC_F7,     KC_F8,      KC_F9,     KC_F10,     KC_WSCH,
         _______,_______,_______,_______,_______,_______,                                   KC_CALC,  KC_F4,     KC_F5,      KC_F6,     KC_F11,     KC_WFAV,
-        _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,           KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
+        _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,_______,           KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
         _______,_______,                                      KC_APP,  KC_HELP,
         _______,_______,            _______,KC_MUTE,
         _______,_______,            _______,_______,
@@ -96,10 +96,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
     [SYMBOL] = LAYOUT_5x6( KC_TILD, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,                        _______,_______,_______,_______,_______,_______,
         KC_SLSH, KC_LCBR, KC_GRV,  KC_QUOT, KC_RCBR, KC_AT,                         _______,_______,KC_TAB,S(KC_TAB),_______,_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS, KC_DLR,  KC_PERC,                        _______,KC_BSPC,KC_DEL,KC_SPC,KC_ENT,_______,
-        KC_EXLM, KC_LT,   KC_PIPE, KC_ASTR, KC_GT,   KC_PPLS,                        _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
-        KC_AMPR,KC_PIPE,                                    _______ ,_______,
-        KC_COLN,KC_ASTR,            _______,_______,
+        KC_HASH, KC_CIRC, KC_DQUO, KC_UNDS, KC_DLR,  KC_PERC,                        _______,KC_BSPC,KC_DEL,KC_SPC,KC_ENT,_______,
+        KC_EXLM, KC_LT,   KC_MINS, KC_EQL,  KC_GT,   KC_PPLS,                        _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
+        KC_AMPR, KC_PIPE,                                    _______ ,_______,
+        KC_COLN ,KC_ASTR,            _______,_______,
         _______,_______,            _______,_______,
         _______,_______,            _______,_______
     ),
@@ -143,12 +143,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         // Ring fingers
         case QHOME_X:
         case QHOME_DOT:
-            return TAPPING_TERM + 50;
+            return TAPPING_TERM + 10;
 
         // Pinkies
         case QHOME_Z:
-        case QHOME_SLSH:
-            return TAPPING_TERM + 50;
+            return TAPPING_TERM + 10;
 
         // Middle fingers
         case QHOME_C:
