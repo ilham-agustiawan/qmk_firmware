@@ -54,7 +54,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         OSM(MOD_LSFT), QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
         KC_PGUP,KC_PGDN,                                                       KC_LBRC, QHOME_RBC,
         MO(CURSOR),  LT(NUMBER,KC_BSPC),                          LT(MOUSE,KC_SPC), MO(SYMBOL),
-        KC_TAB,  KC_ESC,                                        KC_ENT, QK_REP,
+        OSM(MOD_LSFT),  KC_ESC,                                        KC_ENT, QK_REP,
         RGUI(KC_SPC),  LT(FUNCTION,KC_DEL),                           OSM(MOD_LSFT), KC_DOWN
     ),
 
@@ -76,7 +76,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         _______,_______,_______,_______,_______,_______,                                 KC_GT,    KC_4,     KC_5,      KC_6,    KC_PMNS,    KC_PPLS,
         _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,_______,         KC_EQL,   KC_1,     KC_2,      KC_3,    KC_PSLS,    KC_PAST,
         _______,_______,                                      KC_LPRN,  KC_RPRN,
-        _______,_______,            _______,KC_0,
+        _______,_______,            QK_LLCK,KC_0,
         _______,_______,            _______,_______,
         _______,_______,            _______,_______
 

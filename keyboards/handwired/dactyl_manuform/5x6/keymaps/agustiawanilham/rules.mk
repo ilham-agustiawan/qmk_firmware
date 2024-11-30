@@ -5,6 +5,7 @@ RGBLIGHT_ENABLE = no
 BOOTMAGIC_ENABLE = no
 MOUSEKEY_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
+LAYER_LOCK_ENABLE = yes
 
 # https://github.com/getreuer/qmk-keymap
 
