@@ -152,12 +152,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         // Middle fingers
         case QHOME_C:
         case QHOME_COMM:
-            return TAPPING_TERM - 20;
+        case QHOME_SCLN:
+            return TAPPING_TERM - 30;
 
         // Index fingers
         case QHOME_V:
         case QHOME_M:
-            return TAPPING_TERM - 20;
+            return TAPPING_TERM - 30;
 
         default:
             return TAPPING_TERM;
@@ -211,8 +212,18 @@ uint16_t achordion_streak_chord_timeout(
         return 0;
       }
       break;
+    case QHOME_SCLN:
+      if (next_keycode == KC_C || next_keycode == KC_V) {
+        return 0;
+      }
+      break;
+    case QHOME_Z:
+      if (next_keycode == KC_SPC) {
+        return 0;
+      }
+      break;
     case QHOME_C:
-      if (next_keycode == QHOME_N) {
+      if (next_keycode == QHOME_N || next_keycode == KC_P) {
         return 0;
       }
       break;
@@ -223,7 +234,7 @@ uint16_t achordion_streak_chord_timeout(
   if ((mod & MOD_LSFT) != 0) {
     return 100;  // A short streak timeout for Shift mod-tap keys.
   } else {
-    return 220;  // A longer timeout otherwise.
+    return 180;  // A longer timeout otherwise.
   }
 }
 

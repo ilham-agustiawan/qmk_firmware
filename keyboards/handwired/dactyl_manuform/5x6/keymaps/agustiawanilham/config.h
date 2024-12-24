@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* QMK */
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 150
+#define TAPPING_TERM 140
 #define PERMISSIVE_HOLD
-#define TAPPING_TERM_PER_KEY
-#define TAPPING_FORCE_HOLD_PER_KEY
+// #define TAPPING_TERM_PER_KEY
+// #define TAPPING_FORCE_HOLD_PER_KEY
 #define QUICK_TAP_TERM 0
 #define QUICK_TAP_TERM_PER_KEY
 
