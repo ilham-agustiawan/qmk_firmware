@@ -61,7 +61,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [CURSOR] = LAYOUT_5x6(
         QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,DB_TOGG,                                _______,RGUI(KC_GRV),_______,_______,RGUI(KC_V),_______,
         _______,_______,RCTL(KC_W),_______,_______,_______,                             RCTL(KC_INS), KC_TAB,  S(KC_TAB),RGUI(KC_SPC),S(KC_INS),_______,
-        _______,ALT_TAB,_______,_______,RCTL(KC_A),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
+        _______,ALT_TAB,_______,_______,RCTL(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
         _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   _______, _______,
                                         RGUI(KC_C),RGUI(KC_V),                           _______,_______,
         _______,_______,            _______,_______,
@@ -153,12 +153,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case QHOME_C:
         case QHOME_COMM:
         case QHOME_SCLN:
-            return TAPPING_TERM - 30;
-
-        // Index fingers
-        case QHOME_V:
-        case QHOME_M:
-            return TAPPING_TERM - 30;
+            return TAPPING_TERM - 10;
 
         default:
             return TAPPING_TERM;
@@ -205,30 +200,6 @@ uint16_t achordion_streak_chord_timeout(
     return 0;
   }
 
-  // Exceptions so that certain hotkeys don't get blocked as streaks.
-  switch (tap_hold_keycode) {
-    case QHOME_COMM:
-      if (next_keycode == KC_C || next_keycode == KC_V) {
-        return 0;
-      }
-      break;
-    case QHOME_SCLN:
-      if (next_keycode == KC_C || next_keycode == KC_V) {
-        return 0;
-      }
-      break;
-    case QHOME_Z:
-      if (next_keycode == KC_SPC) {
-        return 0;
-      }
-      break;
-    case QHOME_C:
-      if (next_keycode == QHOME_N || next_keycode == KC_P) {
-        return 0;
-      }
-      break;
-  }
-
   // Otherwise, tap_hold_keycode is a mod-tap key.
   const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
   if ((mod & MOD_LSFT) != 0) {
@@ -236,6 +207,15 @@ uint16_t achordion_streak_chord_timeout(
   } else {
     return 180;  // A longer timeout otherwise.
   }
+}
+
+uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+  switch (tap_hold_keycode) {
+    case QHOME_Z:
+      return 0;  // Bypass Achordion for these keys.
+  }
+
+  return 800;  // Otherwise use a timeout of 800 ms.
 }
 
 bool is_alt_tab_active = false;
