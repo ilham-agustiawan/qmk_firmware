@@ -105,7 +105,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [SYMBOL] = LAYOUT_5x6( KC_TILD, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,                       _______,_______,_______,_______,_______,_______,
                         KC_SLSH, KC_LCBR, KC_GRV,  KC_QUOT, KC_RCBR, KC_AT,                          _______,KC_TAB, S(KC_TAB),KC_ENT,_______,_______,
                         KC_HASH, KC_CIRC, KC_DQUO, KC_UNDS, KC_DLR,  KC_PERC,                        _______,KC_BSPC,KC_DEL,KC_SPC,KC_ENT,_______,
-                        KC_EXLM, KC_LT,   KC_MINS, KC_EQL,  KC_GT,   KC_PPLS,                        _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
+                        KC_EXLM, KC_LT,   KC_MINS, KC_EQL,  KC_GT,   KC_PPLS,                        _______, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
                         KC_AMPR, KC_PIPE,                                    _______ ,_______,
                         KC_COLN ,KC_ASTR,            _______,_______,
                         _______,_______,            _______,_______,
