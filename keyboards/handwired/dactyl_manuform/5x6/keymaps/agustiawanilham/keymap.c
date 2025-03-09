@@ -31,11 +31,12 @@ enum custom_keycodes {
   MY_COPY,                    // Custom keycode for copy
   MY_PASTE,                   // Custom keycode for paste
   MY_CUT,                     // Custom keycode for cut
-  TOG_VIM                     // Toggle vim mode
+  TOG_VIM,                    // Toggle vim mode
+  CMD_CTL,                    // Command or Control
 };
 
 // Home row mods for QWERTY layer for windows and linux
-#define QHOME_Z LGUI_T(KC_Z)
+#define QHOME_A LGUI_T(KC_A)
 #define QHOME_X LALT_T(KC_X)
 #define QHOME_C LCTL_T(KC_C)
 #define QHOME_V LSFT_T(KC_V)
@@ -66,10 +67,10 @@ enum custom_keycodes {
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
-    KC_EQL,        KC_1,   KC_2,   KC_3,   KC_4,   KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
-    KC_TAB,        KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    KC_LCTL,        KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                        KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
-    KC_LSFT, QHOME_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                           QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
+    KC_EQL,  KC_1,   KC_2,   KC_3,   KC_4,   KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
+    KC_TAB,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
+    CMD_CTL, KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                        KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    KC_LSFT, KC_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                           QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
     QHOME_PGUP,KC_PGDN,                                                            KC_LBRC, QHOME_RBC,
     MO(CURSOR),  LT(NUMBER,KC_BSPC),                                            LT(MOUSE,KC_SPC), MO(SYMBOL),
     LT(FUNCTION,KC_DEL),  KC_ESC,                                               KC_ENT, QK_LEAD,
@@ -127,8 +128,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,OM_L,OM_D,OM_R,OM_SLOW,                             _______,_______,_______,_______,_______,_______,
     _______,_______,_______,OM_W_D,OM_W_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
     _______,_______,                            _______ ,_______,
-    OM_U,KC_BTN2,            _______,_______,
-    _______,KC_BTN3,            _______,_______,
+    OM_U,KC_BTN1,            _______,_______,
+    _______,KC_BTN2,            _______,_______,
     _______,KC_BTN4,            _______,_______
 
   ),
@@ -186,7 +187,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
       return TAPPING_TERM + 50;
 
     // Pinkies
-    case QHOME_Z:
+    case QHOME_A:
     case QHOME_C:
       return TAPPING_TERM + 50;
 
@@ -308,6 +309,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         toggle_vim_mode();
       }
       return false; // Skip all further processing of this key
+
+    case CMD_CTL:
+        if (record->event.pressed) {
+            if (is_mac_mode) {
+                register_code(KC_LGUI);
+            } else {
+                register_code(KC_LCTL);
+            }
+        } else {
+            if (is_mac_mode) {
+                unregister_code(KC_LGUI);
+            } else {
+                unregister_code(KC_LCTL);
+            }
+        }
+        return false; // Skip all further processing of this key
+
 
     default:
       return true;
