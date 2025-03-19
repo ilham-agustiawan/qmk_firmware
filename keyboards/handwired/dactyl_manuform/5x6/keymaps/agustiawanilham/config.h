@@ -43,24 +43,3 @@
 #define MOUSEKEY_MAX_SPEED      6
 #undef MOUSEKEY_TIME_TO_MAX
 #define MOUSEKEY_TIME_TO_MAX    64
-
-// Define speed curve for Orbital Mouse.
-#define ORBITAL_MOUSE_SPEED_CURVE \
-      {24, 24, 24, 32, 62, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72}
-//     |               |               |               |           |
-// t = 0.000           1.024           2.048           3.072       3.840 s
-
-// Vim mode settings
-#define USE_VIM // comment this out to disable vim
-#define VIM_FOR_ALL
-#define BETTER_VISUAL_MODE // takes more space but behaves more like vim
-#define VIM_I_TEXT_OBJECTS
-#define VIM_A_TEXT_OBJECTS
-#define VIM_G_MOTIONS
-// #define VIM_COLON_CMDS
-#define VIM_PASTE_BEFORE
-#define VIM_REPLACE
-#define VIM_DOT_REPEAT
-#define VIM_W_BEGINNING_OF_WORD
-#define VIM_NUMBERED_JUMPS
-#define ONESHOT_VIM

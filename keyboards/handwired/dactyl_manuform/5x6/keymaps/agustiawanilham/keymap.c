@@ -1,16 +1,3 @@
-#ifdef USE_VIM
-#include "qmk-vim/src/vim.h"
-#include "qmk-vim/src/modes.h"
-#endif
-
-#ifdef ACHORDION_ENABLE
-#include "features/achordion.h"
-#endif  // ACHORDION_ENABLE
-
-#ifdef ORBITAL_MOUSE_ENABLE
-#include "features/orbital_mouse.h"
-#endif  // ORBITAL_MOUSE_ENABLE
-
 #include QMK_KEYBOARD_H
 
 enum layers {
@@ -31,12 +18,11 @@ enum custom_keycodes {
   MY_COPY,                    // Custom keycode for copy
   MY_PASTE,                   // Custom keycode for paste
   MY_CUT,                     // Custom keycode for cut
-  TOG_VIM,                    // Toggle vim mode
   CMD_CTL,                    // Command or Control
 };
 
 // Home row mods for QWERTY layer for windows and linux
-#define QHOME_A LGUI_T(KC_A)
+#define QHOME_Z LGUI_T(KC_Z)
 #define QHOME_X LALT_T(KC_X)
 #define QHOME_C LCTL_T(KC_C)
 #define QHOME_V LSFT_T(KC_V)
@@ -67,20 +53,20 @@ enum custom_keycodes {
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
-    KC_EQL,  KC_1,   KC_2,   KC_3,   KC_4,   KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
-    KC_TAB,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    CMD_CTL, KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                        KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
-    KC_LSFT, KC_Z,QHOME_X,QHOME_C,QHOME_V,QHOME_B,                           QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
+    KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
+    KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
+    CMD_CTL, KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    KC_LSFT, QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
     QHOME_PGUP,KC_PGDN,                                                            KC_LBRC, QHOME_RBC,
     MO(CURSOR),  LT(NUMBER,KC_BSPC),                                            LT(MOUSE,KC_SPC), MO(SYMBOL),
-    LT(FUNCTION,KC_DEL),  KC_ESC,                                               KC_ENT, QK_LEAD,
-    RGUI(KC_SPC),  OSM(MOD_LSFT),                                               OSM(MOD_RSFT), KC_DOWN
+    LT(FUNCTION,KC_DEL),  KC_ESC,                                               KC_ENT, KC_TAB,
+    QK_REP,  OSM(MOD_LSFT),                                                     OSM(MOD_RSFT), QK_REP
   ),
 
   [CURSOR] = LAYOUT_5x6(
-    QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,TOG_VIM,                                TOG_MAC_LINUX,_______,_______,_______,_______,_______,
+    QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,_______,                                TOG_MAC_LINUX,_______,_______,_______,_______,_______,
     _______,_______,C(KC_W),_______,_______,_______,                                MY_COPY, KC_TAB,  S(KC_TAB),RGUI(KC_SPC),MY_PASTE,MY_CUT,
-    _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                                KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
+    _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
     _______,_______,            QK_LLCK,_______,
@@ -113,23 +99,24 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,            KC_VOLU,KC_VOLD
   ),
 
-  [SYMBOL] = LAYOUT_5x6( KC_TILD, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,                       C(KC_6),_______,_______,_______,_______,_______,
-                        KC_SLSH, KC_LCBR, KC_GRV,  KC_QUOT, KC_RCBR, KC_AT,                          C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
-                        KC_HASH, KC_CIRC, KC_DQUO, KC_UNDS, KC_DLR,  KC_PERC,                        KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
-                        KC_EXLM, KC_LT,   KC_MINS, KC_EQL,  KC_GT,   KC_PPLS,                        QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
-                        KC_AMPR, KC_PIPE,                                    _______ ,_______,
-                        KC_COLN ,KC_ASTR,            _______,_______,
-                        _______,_______,            _______,_______,
-                        _______,_______,            _______,_______
+  [SYMBOL] = LAYOUT_5x6(
+        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
+        KC_EXLM, KC_COMM, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                          C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
+        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                         QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
+                   KC_AMPR, KC_PIPE,                                                                 _______ ,_______,
+                          KC_COLN ,KC_PERC,                                                                _______,_______,
+                          _______,_______,                                                                _______,_______,
+                          _______,_______,                                                                _______,_______
   ),
   [MOUSE] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
-    _______,_______,OM_BTN1,OM_U,OM_BTN2,_______,                            _______,_______,_______,_______ ,_______,_______,
-    _______,_______,OM_L,OM_D,OM_R,OM_SLOW,                             _______,_______,_______,_______,_______,_______,
-    _______,_______,_______,OM_W_D,OM_W_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
+    _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
+    _______,KC_ACL0,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,_______,_______,_______,_______,_______,
+    _______,KC_ACL1,KC_ACL2,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
     _______,_______,                            _______ ,_______,
-    OM_U,KC_BTN1,            _______,_______,
-    _______,KC_BTN2,            _______,_______,
+    KC_BTN1,KC_BTN2,            _______,_______,
+    _______,KC_BTN3,            _______,_______,
     _______,KC_BTN4,            _______,_______
 
   ),
@@ -158,25 +145,28 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 #endif  // CAPS_WORD_ENABLE
 
-#ifdef ACHORDION_ENABLE
-bool achordion_chord(uint16_t tap_hold_keycode,
-                     keyrecord_t* tap_hold_record,
-                     uint16_t other_keycode,
-                     keyrecord_t* other_record) {
-  // Also allow same-hand holds when the other key is in the rows outside the
-  // alphas. I need the `% (MATRIX_ROWS / 2)` because my keyboards are split.
-  const uint8_t row = other_record->event.key.row % (MATRIX_ROWS / 2);
-  if (!(1 <= row && row <= 3)) { return true; }
-  return achordion_opposite_hands(tap_hold_record, other_record);
+char chordal_hold_handedness(keypos_t key) {
+    if (key.col == 0 || key.col == MATRIX_COLS - 1) {
+        return '*';  // Exempt the outer columns.
+    }
+    // On split keyboards, typically, the first half of the rows are on the
+    // left, and the other half are on the right.
+    return key.row < MATRIX_ROWS / 2 ? 'L' : 'R';
 }
 
-uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-  switch (tap_hold_keycode) {
-      return 800;  // Use a timeout of 800 ms.
-  }
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+                      uint16_t other_keycode, keyrecord_t* other_record) {
+    // Exceptionally allow some one-handed chords for hotkeys.
+    switch (tap_hold_keycode) {
+        case LCTL_T(KC_Z):
+            if (other_keycode == KC_C || other_keycode == KC_V) {
+                return true;
+            }
+            break;
+    }
+    // Otherwise defer to the opposite hands rule.
+    return get_chordal_hold_default(tap_hold_record, other_record);
 }
-
-#endif  // ACHORDION_ENABLE
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -187,7 +177,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
       return TAPPING_TERM + 50;
 
     // Pinkies
-    case QHOME_A:
     case QHOME_C:
       return TAPPING_TERM + 50;
 
@@ -210,30 +199,12 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   }
 }
 
-void leader_start_user(void) {
-}
-
-void leader_end_user(void) {
-    if (leader_sequence_one_key(KC_V)) {
-        toggle_vim_mode();
-    }
-}
 
 bool is_alt_tab_active = false;
 bool is_mac_mode = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // Process case modes
-  if (!process_vim_mode(keycode, record)) {
-      return false;
-  }
-#ifdef ACHORDION_ENABLE
-  if (!process_achordion(keycode, record)) { return false; }
-#endif  // ACHORDION_ENABLE
-#ifdef ORBITAL_MOUSE_ENABLE
-  if (!process_orbital_mouse(keycode, record)) { return false; }
-#endif  // ORBITAL_MOUSE_ENABLE
-
   switch (keycode) {
     case ALT_TAB:
       if (record->event.pressed) {
@@ -282,7 +253,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         // Toggle between macOS and Linux modes
         is_mac_mode = !is_mac_mode;
-        toggle_vim_for_mac();
       }
       return false; // Skip all further processing of this key
 
@@ -303,12 +273,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap_code16(is_mac_mode ? LGUI(KC_X) : LCTL(KC_X));
         }
         return false; // Skip all further processing of this key
-
-    case TOG_VIM:
-      if (record->event.pressed) {
-        toggle_vim_mode();
-      }
-      return false; // Skip all further processing of this key
 
     case CMD_CTL:
         if (record->event.pressed) {
@@ -340,22 +304,4 @@ void matrix_scan_user(void) {
       is_alt_tab_active = false;
     }
   }
-}
-
-void housekeeping_task_user(void) {
-#ifdef ACHORDION_ENABLE
-  achordion_task();
-#endif  // ACHORDION_ENABLE
-#ifdef RGB_MATRIX_ENABLE
-  lighting_task();
-#endif  // RGB_MATRIX_ENABLE
-#ifdef ORBITAL_MOUSE_ENABLE
-  orbital_mouse_task();
-#endif  // ORBITAL_MOUSE_ENABLE
-#ifdef SELECT_WORD_ENABLE
-  select_word_task();
-#endif  // SELECT_WORD_ENABLE
-#ifdef SENTENCE_CASE_ENABLE
-  sentence_case_task();
-#endif  // SENTENCE_CASE_ENABLE
 }
