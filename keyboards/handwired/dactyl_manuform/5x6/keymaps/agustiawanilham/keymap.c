@@ -75,6 +75,17 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
   ),
 
+  [SYMBOL] = LAYOUT_5x6(
+        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
+        KC_EXLM, KC_COMM, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                        C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
+        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                        QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
+                   KC_AMPR, KC_PIPE,                                                                 _______ ,_______,
+                          KC_COLN ,KC_PERC,                                                                _______,_______,
+                          _______,_______,                                                                _______,_______,
+                          _______,_______,                                                                _______,_______
+  ),
+
   [NUMBER] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                                 KC_TILD,  KC_DLR,   KC_HASH,   KC_AT,   KC_EXLM,    KC_CIRC,
     _______,_______,_______,_______,_______,_______,                                 KC_LT,    KC_7,     KC_8,      KC_9,    KC_COLN,    KC_PERC,
@@ -99,16 +110,6 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,            KC_VOLU,KC_VOLD
   ),
 
-  [SYMBOL] = LAYOUT_5x6(
-        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
-        KC_EXLM, KC_COMM, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                          C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
-        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                         QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
-                   KC_AMPR, KC_PIPE,                                                                 _______ ,_______,
-                          KC_COLN ,KC_PERC,                                                                _______,_______,
-                          _______,_______,                                                                _______,_______,
-                          _______,_______,                                                                _______,_______
-  ),
   [MOUSE] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
     _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
