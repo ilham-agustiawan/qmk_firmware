@@ -7,7 +7,6 @@
     "features": {
         "bootmagic": true,
         "command": false,
-        "console": false,
         "extrakey": true,
         "mousekey": true,
         "nkro": true
@@ -35,7 +34,6 @@
         "led_count": 22,
         "sleep": true
     },
-    "url": "",
     "usb": {
         "device_version": "0.0.1",
         "pid": "0x5336",
