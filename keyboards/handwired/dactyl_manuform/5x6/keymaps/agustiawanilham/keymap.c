@@ -65,7 +65,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
   [CURSOR] = LAYOUT_5x6(
     QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,_______,                                TOG_MAC_LINUX,_______,_______,_______,_______,_______,
-    _______,_______,C(KC_W),_______,_______,_______,                                MY_COPY, KC_TAB,  S(KC_TAB),RGUI(KC_SPC),MY_PASTE,MY_CUT,
+    _______,_______,C(KC_W),MY_COPY,MY_PASTE,_______,                                MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,RGUI(KC_SPC),MY_CUT,
     _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
@@ -77,7 +77,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
-        KC_EXLM, KC_COMM, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                        C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
+        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                        C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
         KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
         KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                        QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
                    KC_AMPR, KC_PIPE,                                                                 _______ ,_______,

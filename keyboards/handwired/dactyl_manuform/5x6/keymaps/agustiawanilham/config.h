@@ -7,7 +7,7 @@
 #define TAP_CODE_DELAY 5
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 150
+#define TAPPING_TERM 140
 #define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 // #define QUICK_TAP_TERM 0
