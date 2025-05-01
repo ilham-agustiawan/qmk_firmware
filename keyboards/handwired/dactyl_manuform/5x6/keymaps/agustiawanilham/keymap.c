@@ -55,31 +55,30 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
     KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
     KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    CMD_CTL, KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    KC_LCTL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
     KC_LSFT, QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,KC_RSFT,
     QHOME_PGUP,KC_PGDN,                                                            KC_LBRC, QHOME_RBC,
-    MO(CURSOR),  LT(NUMBER,KC_BSPC),                                            LT(MOUSE,KC_SPC), MO(SYMBOL),
-    LT(FUNCTION,KC_DEL),  KC_ESC,                                               KC_ENT, KC_TAB,
-    QK_REP,  OSM(MOD_LSFT),                                                     OSM(MOD_RSFT), QK_REP
+    MO(CURSOR), KC_ESC,                                                            LT(MOUSE,KC_SPC), MO(SYMBOL),
+    LT(FUNCTION,KC_DEL),  LT(NUMBER,KC_BSPC),                                   KC_ENT, KC_HYPR,
+    QK_REP,  OSM(MOD_LSFT),                                                     KC_TAB, KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
-    QK_BOOT,CG_LSWP,CG_LNRM,_______,_______,_______,                                TOG_MAC_LINUX,_______,_______,_______,_______,_______,
-    _______,_______,C(KC_W),MY_COPY,MY_PASTE,_______,                                MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,RGUI(KC_SPC),MY_CUT,
+    QK_BOOT,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
+    _______,_______,C(KC_W),MY_COPY,MY_PASTE,_______,                               MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,RGUI(KC_SPC),MY_CUT,
     _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
     _______,_______,            QK_LLCK,_______,
     _______,_______,            _______,_______,
     _______,_______,            _______,_______
-
   ),
 
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
         KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                        C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,_______,_______,
-        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                        QK_REP, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,QK_REP,_______,
+        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                        KC_ESC, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
                    KC_AMPR, KC_PIPE,                                                                 _______ ,_______,
                           KC_COLN ,KC_PERC,                                                                _______,_______,
                           _______,_______,                                                                _______,_______,
