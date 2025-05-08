@@ -7,13 +7,13 @@
 #define TAP_CODE_DELAY 5
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 150
+#define TAPPING_TERM 140
 #define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
 #define QUICK_TAP_TERM_PER_KEY
 
-#define FLOW_TAP_TERM 120
+#define FLOW_TAP_TERM 140
 
 // Enable Chordal Hold (https://github.com/qmk/qmk_firmware/pull/24560)
 #define CHORDAL_HOLD

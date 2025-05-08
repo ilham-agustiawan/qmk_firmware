@@ -18,7 +18,8 @@ enum custom_keycodes {
   MY_COPY,                    // Custom keycode for copy
   MY_PASTE,                   // Custom keycode for paste
   MY_CUT,                     // Custom keycode for cut
-  CMD_CTL,                    // Command or Control
+  MY_CLOSE,                   // Custom keycode for close
+  CMD_PAL,                    // Custom keycode for command palette
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -64,7 +65,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
   [CURSOR] = LAYOUT_5x6(
     QK_BOOT,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
-    _______,_______,C(KC_W),MY_COPY,MY_PASTE,_______,                               MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,RGUI(KC_SPC),MY_CUT,
+    _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                               MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,CMD_PAL,MY_CUT,
     _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
@@ -101,7 +102,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,_______,_______,_______,_______,                                   KC_MSEL,  KC_MPLY,   KC_MPRV,    KC_MNXT,   KC_MSTP,    KC_CIRC,
     _______,_______,_______,_______,_______,_______,                                   KC_MAIL,  KC_F7,     KC_F8,      KC_F9,     KC_F10,     KC_WSCH,
     _______,_______,_______,_______,_______,_______,                                   KC_CALC,  KC_F4,     KC_F5,      KC_F6,     KC_F11,     KC_WFAV,
-    _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,                                   KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
+    _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,           KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
     _______,_______,                                                                                      KC_APP,  KC_HELP,
     _______,_______,            _______,KC_MUTE,
     _______,_______,            _______,_______,
@@ -209,7 +210,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         if (!is_alt_tab_active) {
           is_alt_tab_active = true;
-          register_code(KC_LGUI);
+          if (is_mac_mode) {
+            register_code(KC_LGUI);
+          } else {
+            register_code(KC_LALT);
+          }
         }
         register_code(KC_TAB);
       } else {
@@ -220,7 +225,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_ENTER:
       if (record->event.pressed) {
         if (is_alt_tab_active) {
-          unregister_code(KC_LGUI);
+          if (is_mac_mode) {
+            unregister_code(KC_LGUI);
+          } else {
+            unregister_code(KC_LALT);
+          }
           is_alt_tab_active = false;
           return false;
         }
@@ -228,25 +237,60 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
 
     case KC_Q:
-      if (record->event.pressed) {
-        if (is_alt_tab_active) {
-          register_code(KC_Q);
-          return false;
+        if (record->event.pressed && is_alt_tab_active) { // If Q is pressed AND our custom Alt-Tab is active
+            if (is_mac_mode) {
+                // macOS: We want to send Cmd + Q
+                // KC_LGUI is already held by the ALT_TAB logic.
+                tap_code(KC_Q); // Sends a Q tap, OS sees Cmd+Q
+
+                // Terminate the custom Alt-Tab mode
+                unregister_code(KC_LGUI);
+                unregister_code(KC_TAB); // Ensure Tab is also released from the switcher state
+                is_alt_tab_active = false;
+            } else {
+                // Windows: We want to send Alt + F4
+                // KC_LALT is already held by the ALT_TAB logic.
+                tap_code(KC_F4); // Sends an F4 tap, OS sees Alt+F4
+
+                // Terminate the custom Alt-Tab mode
+                unregister_code(KC_LALT);
+                unregister_code(KC_TAB); // Ensure Tab is also released from the switcher state
+                is_alt_tab_active = false;
+            }
+            return false; // We've handled this key press entirely.
         }
-      }
-      return true;
+        // If Q is pressed when Alt-Tab is NOT active, or if it's a key release
+        // (and the press wasn't handled above), let it behave as a normal Q.
+        return true;
 
     case KC_ESCAPE:
-      if (record->event.pressed) {
-        if (is_alt_tab_active) {
-          register_code(KC_ESCAPE);
-          unregister_code(KC_LGUI);
-          unregister_code(KC_ESCAPE);
-          is_alt_tab_active = false;
-          return false;
+        if (record->event.pressed) {
+            if (is_alt_tab_active) {
+                // register_code(KC_ESCAPE); // Sending actual ESC to OS can be good.
+                // tap_code(KC_ESCAPE); // More robust way to send ESC if that's the goal.
+                                      // If the goal is just to cancel *your* alt-tab mode:
+                if (is_mac_mode) {
+                    unregister_code(KC_LGUI);
+                } else {
+                    unregister_code(KC_LALT);
+                }
+                unregister_code(KC_TAB); // Ensure Tab is also released
+                // unregister_code(KC_ESCAPE); // if you registered it above
+                is_alt_tab_active = false;
+                // If you want ESC to also be sent to the OS to close dialogs/menus:
+                // return true; // after unregistering your modifiers.
+                // Or, tap_code(KC_ESCAPE) before unregistering.
+                // For now, let's assume ESC just cancels your mode and sends nothing extra or sends ESC *before* cancelling.
+                // To send ESC to cancel OS's Alt-Tab visual AND your mode:
+                tap_code(KC_ESCAPE); // Send an actual ESC key press to the OS
+                // The modifiers will be released by the tap_code if they were part of it,
+                // but since they are held by your logic, they are still held.
+                // So, unregister them manually after.
+                // (The lines above for unregistering LGUI/LALT/TAB are already correct for cancelling your mode)
+                return false; // We handled it.
+            }
         }
-      }
-      return true;
+        return true;
 
     case TOG_MAC_LINUX:
       if (record->event.pressed) {
@@ -254,6 +298,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         is_mac_mode = !is_mac_mode;
       }
       return false; // Skip all further processing of this key
+
+    case CMD_PAL:
+        if (record->event.pressed) {
+            if (is_mac_mode) {
+                tap_code16(LGUI(KC_SPC));
+            } else {
+                // windows = windows + alt + space
+                register_code(KC_LALT); // Press and hold Left Alt
+                register_code(KC_LGUI); // Press and hold Left Gui
+                tap_code(KC_SPACE);     // Press and release Space
+                unregister_code(KC_LGUI); // Release Left Gui
+                unregister_code(KC_LALT); // Release Left Alt
+            }
+        }
+        return false; // Skip all further processing of this key
 
     case MY_COPY:
         if (record->event.pressed) {
@@ -273,22 +332,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false; // Skip all further processing of this key
 
-    case CMD_CTL:
+    case MY_CLOSE:
         if (record->event.pressed) {
             if (is_mac_mode) {
-                register_code(KC_LGUI);
+                tap_code16(LGUI(KC_W));
             } else {
-                register_code(KC_LCTL);
-            }
-        } else {
-            if (is_mac_mode) {
-                unregister_code(KC_LGUI);
-            } else {
-                unregister_code(KC_LCTL);
+                tap_code16(LALT(KC_F4));
             }
         }
         return false; // Skip all further processing of this key
-
 
     default:
       return true;
@@ -298,8 +350,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) {
   /* achordion_task(); */
   if (is_alt_tab_active) {
-    if (IS_LAYER_OFF(CURSOR)){
-      unregister_code(KC_LGUI);
+    if (IS_LAYER_OFF(CURSOR)) { // If CURSOR layer is no longer active
+      if (is_mac_mode) {
+        unregister_code(KC_LGUI);
+      } else {
+        unregister_code(KC_LALT); // Correctly unregister LALT for Win/Linux
+      }
+      // It might also be prudent to ensure KC_TAB is unregistered here too,
+      // although your ALT_TAB logic unregisters it on key release.
+      // unregister_code(KC_TAB); // Optional: if you want to be absolutely sure
       is_alt_tab_active = false;
     }
   }
