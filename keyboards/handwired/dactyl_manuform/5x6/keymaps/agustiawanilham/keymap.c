@@ -112,12 +112,12 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [MOUSE] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
     _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
-    _______,KC_ACL0,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,_______,_______,_______,_______,_______,
-    _______,KC_ACL1,KC_ACL2,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
+    _______,KC_BTN3,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,KC_ACL0,KC_ACL1,KC_ACL2,_______,_______,
+    _______,KC_BTN4,KC_BTN5,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
     _______,_______,                            _______ ,_______,
-    KC_BTN1,KC_BTN2,            _______,_______,
-    _______,KC_BTN3,            _______,_______,
-    _______,KC_BTN4,            _______,_______
+    _______,KC_BTN1,            _______,_______,
+    _______,KC_BTN2,            _______,_______,
+    _______,_______,            _______,_______
 
   ),
 };
@@ -236,33 +236,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return true;
 
-    case KC_Q:
-        if (record->event.pressed && is_alt_tab_active) { // If Q is pressed AND our custom Alt-Tab is active
-            if (is_mac_mode) {
-                // macOS: We want to send Cmd + Q
-                // KC_LGUI is already held by the ALT_TAB logic.
-                tap_code(KC_Q); // Sends a Q tap, OS sees Cmd+Q
-
-                // Terminate the custom Alt-Tab mode
-                unregister_code(KC_LGUI);
-                unregister_code(KC_TAB); // Ensure Tab is also released from the switcher state
-                is_alt_tab_active = false;
-            } else {
-                // Windows: We want to send Alt + F4
-                // KC_LALT is already held by the ALT_TAB logic.
-                tap_code(KC_F4); // Sends an F4 tap, OS sees Alt+F4
-
-                // Terminate the custom Alt-Tab mode
-                unregister_code(KC_LALT);
-                unregister_code(KC_TAB); // Ensure Tab is also released from the switcher state
-                is_alt_tab_active = false;
-            }
-            return false; // We've handled this key press entirely.
-        }
-        // If Q is pressed when Alt-Tab is NOT active, or if it's a key release
-        // (and the press wasn't handled above), let it behave as a normal Q.
-        return true;
-
     case KC_ESCAPE:
         if (record->event.pressed) {
             if (is_alt_tab_active) {
@@ -335,7 +308,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MY_CLOSE:
         if (record->event.pressed) {
             if (is_mac_mode) {
-                tap_code16(LGUI(KC_W));
+                tap_code16(LGUI(KC_Q));
             } else {
                 tap_code16(LALT(KC_F4));
             }
@@ -356,9 +329,6 @@ void matrix_scan_user(void) {
       } else {
         unregister_code(KC_LALT); // Correctly unregister LALT for Win/Linux
       }
-      // It might also be prudent to ensure KC_TAB is unregistered here too,
-      // although your ALT_TAB logic unregisters it on key release.
-      // unregister_code(KC_TAB); // Optional: if you want to be absolutely sure
       is_alt_tab_active = false;
     }
   }

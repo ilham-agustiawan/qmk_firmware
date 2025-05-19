@@ -7,13 +7,13 @@
 #define TAP_CODE_DELAY 5
 
 // Tap-hold configuration for home row mods.
-#define TAPPING_TERM 140
+#define TAPPING_TERM 150
 #define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
 #define QUICK_TAP_TERM_PER_KEY
 
-#define FLOW_TAP_TERM 140
+#define FLOW_TAP_TERM 150
 
 // Enable Chordal Hold (https://github.com/qmk/qmk_firmware/pull/24560)
 #define CHORDAL_HOLD
@@ -38,7 +38,7 @@
 #undef MOUSEKEY_DELAY
 #define MOUSEKEY_DELAY          0
 #undef MOUSEKEY_INTERVAL
-#define MOUSEKEY_INTERVAL       20
+#define MOUSEKEY_INTERVAL       16
 #undef MOUSEKEY_WHEEL_DELAY
 #define MOUSEKEY_WHEEL_DELAY    0
 #undef MOUSEKEY_MAX_SPEED
