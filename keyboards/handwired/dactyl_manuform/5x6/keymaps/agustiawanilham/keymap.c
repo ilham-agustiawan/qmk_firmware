@@ -20,6 +20,7 @@ enum custom_keycodes {
   MY_CUT,                     // Custom keycode for cut
   MY_CLOSE,                   // Custom keycode for close
   CMD_PAL,                    // Custom keycode for command palette
+  CMD_CTRL,               // Custom keycode for command swap
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -56,22 +57,23 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
     KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
     KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    KC_LCTL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    CMD_CTRL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
     QHOME_PGUP,KC_PGDN,                                                            KC_LBRC, QHOME_RBC,
-    MO(CURSOR), LT(NUMBER,KC_BSPC),                                                        LT(MOUSE,KC_SPC), MO(SYMBOL), LT(FUNCTION,KC_DEL), KC_ESC,                                               KC_ENT, KC_HYPR,
+    MO(CURSOR), LT(NUMBER,KC_BSPC),                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
+    LT(FUNCTION,KC_DEL), KC_ESC,                                               KC_ENT, KC_HYPR,
     QK_REP,  OSM(MOD_LSFT),                                                     KC_TAB, KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
-    QK_BOOT,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
-    _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                               MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,CMD_PAL,MY_CUT,
+    _______,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
+    _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                              MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,CMD_PAL,LALT(KC_SPACE),
     _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
     _______,_______,            QK_LLCK,_______,
     _______,_______,            _______,_______,
-    _______,_______,            _______,_______
+    _______,QK_BOOT,            _______,_______
   ),
 
   [SYMBOL] = LAYOUT_5x6(
@@ -170,20 +172,10 @@ bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-
-    // Ring fingers
     case QHOME_X:
-    case QHOME_DOT:
-      return TAPPING_TERM + 50;
-
-    // Pinkies
-    case QHOME_C:
-      return TAPPING_TERM + 50;
-
-    // Middle fingers
-    case QHOME_COMM:
-    case QHOME_SCLN:
-      return TAPPING_TERM - 10;
+    case QHOME_Z:
+    case QHOME_RBC:
+      return TAPPING_TERM + 30;
 
     default:
       return TAPPING_TERM;
@@ -193,6 +185,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
     case QHOME_N:
+    case QHOME_B:
+    case QHOME_X:
       return QUICK_TAP_TERM;  // Enable key repeating.
     default:
       return 0;  // Otherwise, force hold and disable key repeating.
@@ -201,7 +195,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
 
 
 bool is_alt_tab_active = false;
-bool is_mac_mode = false;
+bool is_mac_mode = true;  // Initialize to true for macOS
+static uint16_t my_esc_ctrl_cmd_timer;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // Process case modes
@@ -274,16 +269,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case CMD_PAL:
         if (record->event.pressed) {
-            if (is_mac_mode) {
-                tap_code16(LGUI(KC_SPC));
-            } else {
-                // windows = windows + alt + space
-                register_code(KC_LALT); // Press and hold Left Alt
-                register_code(KC_LGUI); // Press and hold Left Gui
-                tap_code(KC_SPACE);     // Press and release Space
-                unregister_code(KC_LGUI); // Release Left Gui
-                unregister_code(KC_LALT); // Release Left Alt
-            }
+            register_code(KC_LALT);
+            register_code(KC_SPC);
+            unregister_code(KC_LALT);
+            unregister_code(KC_SPC);
         }
         return false; // Skip all further processing of this key
 
@@ -294,10 +283,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
 
     case MY_PASTE:
-      if (record->event.pressed) {
-        tap_code16(is_mac_mode ? LGUI(KC_V) : LCTL(KC_V));
-      }
-      return false; // Skip all further processing of this key
+        if (record->event.pressed) {
+            tap_code16(is_mac_mode ? LGUI(KC_V) : LCTL(KC_V));
+        }
+        return false;
 
     case MY_CUT:
         if (record->event.pressed) {
@@ -314,6 +303,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false; // Skip all further processing of this key
+
+    case CMD_CTRL:
+        if (record->event.pressed) {
+            // Keydown
+            my_esc_ctrl_cmd_timer = timer_read(); // Start the timer
+            if (is_mac_mode) {
+              register_code(KC_LGUI); // Or KC_RGUI depending on your preference
+            } else {
+              register_code(KC_LCTL); // Or KC_RCTL
+            }
+        } else {
+            // Keyup
+            if (timer_elapsed(my_esc_ctrl_cmd_timer) < TAPPING_TERM) {
+              // It's a tap
+              if (is_mac_mode) {
+                unregister_code(KC_LGUI);
+              } else {
+                unregister_code(KC_LCTL);
+              }
+              tap_code(KC_ESC);
+            } else {
+              // It's a hold
+              if (is_mac_mode) {
+                unregister_code(KC_LGUI);
+              } else {
+                unregister_code(KC_LCTL);
+              }
+            }
+        }
+        return false; // Skip all other key processing
 
     default:
       return true;
