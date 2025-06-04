@@ -3,7 +3,6 @@ LTO_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 LAYER_LOCK_ENABLE = yes
-LEADER_ENABLE = yes
 
 # https://docs.qmk.fm/#/feature_caps_word?id=caps-word
 CAPS_WORD_ENABLE = yes
@@ -17,3 +16,4 @@ SPACE_CADET_ENABLE = no
 GRAVE_ESC_ENABLE = no
 ENCODER_ENABLE = no       # Enables the use of one or more encoders
 RGBLIGHT_ENABLE = no      # Enable keyboard RGB underglow
+LEADER_ENABLE = no

@@ -19,7 +19,6 @@
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM_PER_KEY
 
-
 #define FLOW_TAP_TERM 100
 
 // Enable Chordal Hold (https://github.com/qmk/qmk_firmware/pull/24560)

@@ -21,6 +21,7 @@ enum custom_keycodes {
   MY_CLOSE,                   // Custom keycode for close
   CMD_PAL,                    // Custom keycode for command palette
   CMD_CTRL,               // Custom keycode for command swap
+  LEADER_TMUX,                // custom keycode for leader key to activate tmux-like behavior
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -39,6 +40,7 @@ enum custom_keycodes {
 #define QHOME_SCLN LGUI_T(KC_SCLN)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
+#define LEADER_TMUX LCTL(KC_F)
 
 // For windows and linux
 //             Left hand                          Right hand
@@ -57,19 +59,19 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
     KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
     KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    CMD_CTRL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
-    OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,                      QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
-    QHOME_PGUP,KC_PGDN,                                                            KC_LBRC, QHOME_RBC,
+    CMD_CTRL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
+    QHOME_PGUP,KC_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), LT(NUMBER,KC_BSPC),                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
     LT(FUNCTION,KC_DEL), KC_ESC,                                               KC_ENT, KC_HYPR,
-    QK_REP,  OSM(MOD_LSFT),                                                     KC_TAB, KC_MEH
+    QK_REP,  OSM(MOD_LSFT),                                                    KC_TAB, KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
     _______,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
-    _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                              MY_COPY,   S(KC_TAB),    KC_TAB,   KC_ENT,CMD_PAL,LALT(KC_SPACE),
-    _______,ALT_TAB,G(KC_TILD),_______,C(KC_F),C(KC_V),                             KC_LEFT,   KC_DOWN, KC_UP,     KC_RGHT,  CAPS_WORD,KC_CAPS,
-    _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,C(KC_C),                                KC_HOME,   KC_PGDN, KC_PGUP,   KC_END,   QK_REP, KC_DEL,
+    _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                              _______,S(KC_TAB),KC_TAB,_______,_______,_______,
+    CAPS_WORD,ALT_TAB,G(KC_TILD),_______,LEADER_TMUX,QK_REP,                        KC_LEFT,KC_DOWN, KC_UP,KC_RGHT,CAPS_WORD,KC_CAPS,
+    _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        KC_HOME,KC_PGDN, KC_PGUP,KC_END,_______,KC_DEL,
     RGUI(KC_C),RGUI(KC_V),                           _______,_______,
     _______,_______,            QK_LLCK,_______,
     _______,_______,            _______,_______,
@@ -77,14 +79,14 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   ),
 
   [SYMBOL] = LAYOUT_5x6(
-        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                         C(KC_6),_______,_______,_______,_______,_______,
-        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                        C(KC_SPC), KC_TAB, S(KC_TAB),C(KC_ENT),RGUI(KC_SPC),_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                          KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,QK_REP,_______,
-        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                        KC_ESC, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI), _______,
-                   KC_AMPR, KC_PIPE,                                                                 _______ ,_______,
-                          KC_COLN ,KC_PERC,                                                                _______,_______,
-                          _______,_______,                                                                _______,_______,
-                          _______,_______,                                                                _______,_______
+        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                        _______,_______,_______,_______,_______,_______,
+        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                       C(KC_SPC), S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,QK_REP,_______,
+        KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
+                   KC_AMPR, KC_PIPE,                                                                _______ ,_______,
+                          KC_COLN ,KC_PERC,                                                              _______,_______,
+                          _______,_______,                                                               _______,_______,
+                          _______,_______,                                                               _______,_______
   ),
 
   [NUMBER] = LAYOUT_5x6(
@@ -177,6 +179,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case QHOME_RBC:
       return TAPPING_TERM + 30;
 
+    case LEADER_TMUX:
+        return TAPPING_TERM - 50;
+
     default:
       return TAPPING_TERM;
   }
@@ -199,7 +204,12 @@ bool is_mac_mode = true;  // Initialize to true for macOS
 static uint16_t my_esc_ctrl_cmd_timer;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+#endif
+uprintf("kc: %s\n", get_keycode_string(keycode));
   // Process case modes
+    //
   switch (keycode) {
     case ALT_TAB:
       if (record->event.pressed) {
@@ -269,10 +279,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case CMD_PAL:
         if (record->event.pressed) {
-            register_code(KC_LALT);
-            register_code(KC_SPC);
-            unregister_code(KC_LALT);
-            unregister_code(KC_SPC);
+            tap_code16(is_mac_mode ? LGUI(KC_SPC) : LALT(KC_SPC));
         }
         return false; // Skip all further processing of this key
 
@@ -340,15 +347,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_scan_user(void) {
-  /* achordion_task(); */
-  if (is_alt_tab_active) {
-    if (IS_LAYER_OFF(CURSOR)) { // If CURSOR layer is no longer active
+  if (IS_LAYER_OFF(CURSOR) && is_alt_tab_active) {
       if (is_mac_mode) {
         unregister_code(KC_LGUI);
       } else {
-        unregister_code(KC_LALT); // Correctly unregister LALT for Win/Linux
+        unregister_code(KC_LALT);
       }
       is_alt_tab_active = false;
     }
-  }
 }
