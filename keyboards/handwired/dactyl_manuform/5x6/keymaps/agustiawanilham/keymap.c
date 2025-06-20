@@ -22,6 +22,7 @@ enum custom_keycodes {
   CMD_PAL,                    // Custom keycode for command palette
   CMD_CTRL,               // Custom keycode for command swap
   LEADER_TMUX,                // custom keycode for leader key to activate tmux-like behavior
+  BSPC_WORD,
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -66,7 +67,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
     LT(FUNCTION,KC_DEL), KC_ESC,                                                KC_ENT, KC_HYPR,
-    QK_REP,  OSM(MOD_LSFT),                                                     KC_TAB, KC_MEH
+    QK_REP,  OSM(MOD_LSFT),                                                     QK_REP, KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
@@ -74,7 +75,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                              _______,S(KC_TAB),KC_TAB,_______,_______,_______,
     CAPS_WORD,ALT_TAB,G(KC_TILD),_______,LEADER_TMUX,QK_REP,                        KC_LEFT,KC_DOWN, KC_UP,KC_RGHT,CAPS_WORD,_______,
     KC_CAPS,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        KC_HOME,KC_PGDN, KC_PGUP,KC_END,_______,_______,
-    RGUI(KC_C),RGUI(KC_V),                           _______,_______,
+    C(S(KC_C)),C(S(KC_V)),                           _______,_______,
     _______,_______,            QK_LLCK,_______,
     _______,_______,            _______,_______,
     _______,QK_BOOT,            _______,_______
@@ -82,7 +83,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                        _______,_______,_______,_______,_______,_______,
-        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                       C(KC_SPC), S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
+        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                       BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
         KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,KC_COLN,_______,
         KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
                    KC_AMPR, KC_PIPE,                                                                _______ ,_______,
@@ -178,11 +179,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QHOME_X:
     case QHOME_Z:
+    case QHOME_C:
     case QHOME_RBC:
       return TAPPING_TERM + 30;
-
-    case LEADER_TMUX:
-        return TAPPING_TERM - 50;
 
     default:
       return TAPPING_TERM;
@@ -194,6 +193,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
     case QHOME_N:
     case QHOME_B:
     case QHOME_X:
+    case LEADER_TMUX:
       return QUICK_TAP_TERM;  // Enable key repeating.
     default:
       return 0;  // Otherwise, force hold and disable key repeating.
@@ -271,6 +271,35 @@ uprintf("kc: %s\n", get_keycode_string(keycode));
             }
         }
         return true;
+    case KC_BSPC: {
+      static uint16_t registered_key = KC_NO;
+      if (record->event.pressed) {  // On key press.
+        const uint8_t mods = get_mods();
+#ifndef NO_ACTION_ONESHOT
+        uint8_t shift_mods = (mods | get_oneshot_mods()) & MOD_MASK_SHIFT;
+#else
+        uint8_t shift_mods = mods & MOD_MASK_SHIFT;
+#endif  // NO_ACTION_ONESHOT
+        if (shift_mods) {  // At least one shift key is held.
+          registered_key = KC_DEL;
+          // If one shift is held, clear it from the mods. But if both
+          // shifts are held, leave as is to send Shift + Del.
+          if (shift_mods != MOD_MASK_SHIFT) {
+#ifndef NO_ACTION_ONESHOT
+            del_oneshot_mods(MOD_MASK_SHIFT);
+#endif  // NO_ACTION_ONESHOT
+            unregister_mods(MOD_MASK_SHIFT);
+          }
+        } else {
+          registered_key = KC_BSPC;
+        }
+
+        register_code(registered_key);
+        set_mods(mods);
+      } else {  // On key release.
+        unregister_code(registered_key);
+      }
+    } return false;
 
     case TOG_MAC_LINUX:
       if (record->event.pressed) {
@@ -342,6 +371,18 @@ uprintf("kc: %s\n", get_keycode_string(keycode));
             }
         }
         return false; // Skip all other key processing
+
+    case BSPC_WORD:
+        if (record->event.pressed) {
+            if (is_mac_mode) {
+                // Mac: Option + Backspace
+                tap_code16(LALT(KC_BSPC));
+            } else {
+                // Linux/Windows: Ctrl + Backspace
+                tap_code16(LCTL(KC_BSPC));
+            }
+        }
+        return false; // Skip all further processing of this key
 
     default:
       return true;
