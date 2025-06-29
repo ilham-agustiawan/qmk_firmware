@@ -32,7 +32,7 @@ enum custom_keycodes {
 #define QHOME_V LSFT_T(KC_V)
 #define QHOME_B HYPR_T(KC_B)
 #define QHOME_PGUP LT(FUNCTION,KC_PGUP)
-#define QHOME_PGDN LT(MOUSE,KC_PGDN)
+#define QHOME_PGDN LT(NUMBER,KC_PGDN)
 
 #define QHOME_N    HYPR_T(KC_N)
 #define QHOME_M    RSFT_T(KC_M)
@@ -43,7 +43,6 @@ enum custom_keycodes {
 #define QHOME_LBRC LT(MOUSE,KC_LBRC)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
-#define LEADER_TMUX LCTL(KC_F)
 
 // For windows and linux
 //             Left hand                          Right hand
@@ -58,6 +57,7 @@ enum custom_keycodes {
 // |  Ctrl  |  Alt  | Gui  | Shift |   | Shift |  Gui |  Alt  |  Ctrl  |
 // +-------+-------+-------+-------+   +-------+-------+-------+-------+
 
+// clang-format off
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
     KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
@@ -66,8 +66,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
     QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
-    LT(FUNCTION,KC_DEL), KC_ESC,                                                KC_ENT, KC_HYPR,
-    QK_REP,  OSM(MOD_LSFT),                                                     QK_REP, KC_MEH
+    LT(FUNCTION,KC_DEL), KC_ESC,                                                KC_ENT, QK_REP,
+    QK_REP,  OSM(MOD_LSFT),                                                     KC_HYPR, KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
@@ -152,36 +152,19 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 #endif  // CAPS_WORD_ENABLE
 
-char chordal_hold_handedness(keypos_t key) {
-    if (key.col == 0 || key.col == MATRIX_COLS - 1) {
-        return '*';  // Exempt the outer columns.
-    }
-    // On split keyboards, typically, the first half of the rows are on the
-    // left, and the other half are on the right.
-    return key.row < MATRIX_ROWS / 2 ? 'L' : 'R';
-}
-
-bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
-                      uint16_t other_keycode, keyrecord_t* other_record) {
-    // Exceptionally allow some one-handed chords for hotkeys.
-    switch (tap_hold_keycode) {
-        case LCTL_T(KC_Z):
-            if (other_keycode == KC_C || other_keycode == KC_V) {
-                return true;
-            }
-            break;
-    }
-    // Otherwise defer to the opposite hands rule.
-    return get_chordal_hold_default(tap_hold_record, other_record);
-}
-
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QHOME_X:
     case QHOME_Z:
     case QHOME_C:
     case QHOME_RBC:
-      return TAPPING_TERM + 30;
+    case QHOME_SCLN:
+    case QHOME_COMM:
+      return TAPPING_TERM + 50;
+
+    case QHOME_V:
+    case QHOME_M:
+      return TAPPING_TERM - 50;
 
     default:
       return TAPPING_TERM;
@@ -193,11 +176,50 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
     case QHOME_N:
     case QHOME_B:
     case QHOME_X:
-    case LEADER_TMUX:
       return QUICK_TAP_TERM;  // Enable key repeating.
     default:
       return 0;  // Otherwise, force hold and disable key repeating.
   }
+}
+
+bool get_chordal_hold(
+        uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+        uint16_t other_keycode, keyrecord_t* other_record) {
+  switch (tap_hold_keycode) {
+    case QHOME_V:
+    case QHOME_M:
+      return true;
+
+    case LCTL_T(KC_Z):
+        if (other_keycode == KC_C || other_keycode == KC_V) {
+            return true;
+        }
+  }
+  return get_chordal_hold_default(tap_hold_record, other_record);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Repeat key (https://docs.qmk.fm/features/repeat_key)
+///////////////////////////////////////////////////////////////////////////////
+bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
+                            uint8_t* remembered_mods) {
+  // Unpack tapping keycode for tap-hold keys.
+  keycode = get_tap_keycode(keycode);
+
+  // Forget Shift on most letters when Shift or AltGr are the only mods. Some
+  // letters are excluded, e.g. for "NN" and "ZZ" in Vim.
+  switch (keycode) {
+    case KC_A ... KC_H:
+    case KC_K ... KC_M:
+    case KC_O ... KC_U:
+      if ((*remembered_mods & ~(MOD_MASK_SHIFT | MOD_BIT_RALT)) == 0) {
+        *remembered_mods &= ~MOD_MASK_SHIFT;
+      }
+      break;
+  }
+
+  return true;
 }
 
 
@@ -383,6 +405,12 @@ uprintf("kc: %s\n", get_keycode_string(keycode));
             }
         }
         return false; // Skip all further processing of this key
+
+    case LEADER_TMUX:
+        if (record->event.pressed) {
+            tap_code16(LCTL(KC_F)); // Send Ctrl + F to activate tmux-like behavior
+         }
+        return false;
 
     default:
       return true;

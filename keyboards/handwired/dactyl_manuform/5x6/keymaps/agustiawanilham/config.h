@@ -13,13 +13,12 @@
 // #define QUICK_TAP_TERM 0
 // #define QUICK_TAP_TERM_PER_KEY
 
-#define TAPPING_TERM 140
+#define TAPPING_TERM 225
 #define TAPPING_TERM_PER_KEY
 #define CHORDAL_HOLD
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM_PER_KEY
-
-#define FLOW_TAP_TERM 80
+#define TAP_FLOW_TERM 125
 
 // Enable Chordal Hold (https://github.com/qmk/qmk_firmware/pull/24560)
 #define CHORDAL_HOLD
