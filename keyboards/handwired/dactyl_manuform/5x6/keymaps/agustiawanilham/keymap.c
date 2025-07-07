@@ -66,7 +66,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
     QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
-    LT(FUNCTION,KC_DEL), KC_ESC,                                                KC_ENT, QK_REP,
+    XXX, KC_ESC,                                                                KC_ENT, QK_REP,
     QK_REP,  OSM(MOD_LSFT),                                                     KC_HYPR, KC_MEH
   ),
 
@@ -157,14 +157,14 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case QHOME_X:
     case QHOME_Z:
     case QHOME_C:
-    case QHOME_RBC:
-    case QHOME_SCLN:
     case QHOME_COMM:
+    case QHOME_SCLN:
+    case QHOME_RBC:
       return TAPPING_TERM + 50;
 
     case QHOME_V:
     case QHOME_M:
-      return TAPPING_TERM - 50;
+      return TAPPING_TERM - 30;
 
     default:
       return TAPPING_TERM;
@@ -189,39 +189,39 @@ bool get_chordal_hold(
     case QHOME_V:
     case QHOME_M:
       return true;
-
-    case LCTL_T(KC_Z):
-        if (other_keycode == KC_C || other_keycode == KC_V) {
-            return true;
-        }
   }
   return get_chordal_hold_default(tap_hold_record, other_record);
 }
 
+uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
+                           uint16_t prev_keycode) {
+  // Only apply Flow Tap when following a letter key, and not hotkeys.
+  if (get_tap_keycode(prev_keycode) <= KC_Z &&
+      (get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) == 0) {
+    switch (keycode) {
+      // Bottom row mods - standard timing
+      case QHOME_Z:      // GUI
+      case QHOME_X:      // Alt
+      case QHOME_V:      // Shift
+      case QHOME_M:      // Shift
+      case QHOME_DOT:    // Alt
+      case QHOME_RBC:    // Right Alt
+      case QHOME_SCLN:   // GUI
+        return FLOW_TAP_TERM;
 
-///////////////////////////////////////////////////////////////////////////////
-// Repeat key (https://docs.qmk.fm/features/repeat_key)
-///////////////////////////////////////////////////////////////////////////////
-bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
-                            uint8_t* remembered_mods) {
-  // Unpack tapping keycode for tap-hold keys.
-  keycode = get_tap_keycode(keycode);
+      // Control keys - faster timing for quick shortcuts
+      case QHOME_C:      // Control
+      case QHOME_COMM:   // Control
+        return FLOW_TAP_TERM - 25;
 
-  // Forget Shift on most letters when Shift or AltGr are the only mods. Some
-  // letters are excluded, e.g. for "NN" and "ZZ" in Vim.
-  switch (keycode) {
-    case KC_A ... KC_H:
-    case KC_K ... KC_M:
-    case KC_O ... KC_U:
-      if ((*remembered_mods & ~(MOD_MASK_SHIFT | MOD_BIT_RALT)) == 0) {
-        *remembered_mods &= ~MOD_MASK_SHIFT;
-      }
-      break;
+      // Hyper keys - potentially slower timing
+      case QHOME_B:      // Hyper
+      case QHOME_N:      // Hyper
+        return FLOW_TAP_TERM + 10;
+    }
   }
-
-  return true;
+  return 0;  // Disable Flow Tap otherwise.
 }
-
 
 bool is_alt_tab_active = false;
 bool is_mac_mode = true;  // Initialize to true for macOS

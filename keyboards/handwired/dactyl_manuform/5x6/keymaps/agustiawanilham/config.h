@@ -13,15 +13,15 @@
 // #define QUICK_TAP_TERM 0
 // #define QUICK_TAP_TERM_PER_KEY
 
-#define TAPPING_TERM 225
+#define TAPPING_TERM 240
 #define TAPPING_TERM_PER_KEY
+#define FLOW_TAP_TERM 100
 #define CHORDAL_HOLD
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM_PER_KEY
-#define TAP_FLOW_TERM 125
 
-// Enable Chordal Hold (https://github.com/qmk/qmk_firmware/pull/24560)
-#define CHORDAL_HOLD
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
 
 // Use Left Ctrl + Right Ctrl to activate the Command feature.
 #define IS_COMMAND() (get_mods() == MOD_MASK_CTRL)
