@@ -67,7 +67,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
     XXX, KC_ESC,                                                                KC_ENT, QK_REP,
-    QK_REP,  OSM(MOD_LSFT),                                                     KC_HYPR, KC_MEH
+    XXX,XXX,                                                                    OSM(MOD_RSFT), KC_MEH
   ),
 
   [CURSOR] = LAYOUT_5x6(
@@ -156,15 +156,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QHOME_X:
     case QHOME_Z:
-    case QHOME_C:
-    case QHOME_COMM:
     case QHOME_SCLN:
     case QHOME_RBC:
       return TAPPING_TERM + 50;
 
+    case QHOME_C:
     case QHOME_V:
-    case QHOME_M:
-      return TAPPING_TERM - 30;
+      return TAPPING_TERM + 30;
 
     default:
       return TAPPING_TERM;
@@ -202,22 +200,19 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
       // Bottom row mods - standard timing
       case QHOME_Z:      // GUI
       case QHOME_X:      // Alt
-      case QHOME_V:      // Shift
       case QHOME_M:      // Shift
       case QHOME_DOT:    // Alt
       case QHOME_RBC:    // Right Alt
       case QHOME_SCLN:   // GUI
-        return FLOW_TAP_TERM;
-
-      // Control keys - faster timing for quick shortcuts
-      case QHOME_C:      // Control
       case QHOME_COMM:   // Control
-        return FLOW_TAP_TERM - 25;
+        return FLOW_TAP_TERM;
 
       // Hyper keys - potentially slower timing
       case QHOME_B:      // Hyper
       case QHOME_N:      // Hyper
-        return FLOW_TAP_TERM + 10;
+      case QHOME_V:      // Shift
+      case QHOME_C:      // Control
+        return FLOW_TAP_TERM + 50;
     }
   }
   return 0;  // Disable Flow Tap otherwise.
