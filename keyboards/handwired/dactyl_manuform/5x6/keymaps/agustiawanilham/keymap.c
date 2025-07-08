@@ -158,9 +158,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case QHOME_X:
     case QHOME_Z:
     case QHOME_SCLN:
-    case QHOME_RBC:
     case QHOME_C:
-      return TAPPING_TERM + 25;
+      return TAPPING_TERM + 40;
 
     case QHOME_V:
     case QHOME_M:
