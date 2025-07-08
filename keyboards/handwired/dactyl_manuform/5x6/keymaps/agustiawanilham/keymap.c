@@ -23,6 +23,7 @@ enum custom_keycodes {
   CMD_CTRL,               // Custom keycode for command swap
   LEADER_TMUX,                // custom keycode for leader key to activate tmux-like behavior
   BSPC_WORD,
+  MY_COLON,
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -84,7 +85,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                        _______,_______,_______,_______,_______,_______,
         KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                       BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_BSPC, KC_ENT, KC_SPC,  KC_DEL,KC_COLN,_______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_BSPC, KC_ENT, KC_SPC, KC_DEL, MY_COLON,_______,
         KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
                    KC_AMPR, KC_PIPE,                                                                _______ ,_______,
                           KC_COLN ,KC_PERC,                                                              _______,_______,
@@ -158,11 +159,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case QHOME_Z:
     case QHOME_SCLN:
     case QHOME_RBC:
-      return TAPPING_TERM + 50;
-
     case QHOME_C:
+      return TAPPING_TERM + 25;
+
     case QHOME_V:
-      return TAPPING_TERM + 30;
+    case QHOME_M:
+      return TAPPING_TERM - 25;
 
     default:
       return TAPPING_TERM;
@@ -180,16 +182,16 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   }
 }
 
-bool get_chordal_hold(
-        uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
-        uint16_t other_keycode, keyrecord_t* other_record) {
-  switch (tap_hold_keycode) {
-    case QHOME_V:
-    case QHOME_M:
-      return true;
-  }
-  return get_chordal_hold_default(tap_hold_record, other_record);
-}
+/* bool get_chordal_hold( */
+/*         uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, */
+/*         uint16_t other_keycode, keyrecord_t* other_record) { */
+/*   switch (tap_hold_keycode) { */
+/*     case QHOME_V: */
+/*     case QHOME_M: */
+/*       return true; */
+/*   } */
+/*   return get_chordal_hold_default(tap_hold_record, other_record); */
+/* } */
 
 uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
                            uint16_t prev_keycode) {
@@ -199,20 +201,15 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
     switch (keycode) {
       // Bottom row mods - standard timing
       case QHOME_Z:      // GUI
+      case QHOME_SCLN:   // GUI
       case QHOME_X:      // Alt
-      case QHOME_M:      // Shift
       case QHOME_DOT:    // Alt
       case QHOME_RBC:    // Right Alt
-      case QHOME_SCLN:   // GUI
-      case QHOME_COMM:   // Control
         return FLOW_TAP_TERM;
 
-      // Hyper keys - potentially slower timing
-      case QHOME_B:      // Hyper
-      case QHOME_N:      // Hyper
-      case QHOME_V:      // Shift
       case QHOME_C:      // Control
-        return FLOW_TAP_TERM + 50;
+      case QHOME_COMM:   // Control
+        return FLOW_TAP_TERM - 25;
     }
   }
   return 0;  // Disable Flow Tap otherwise.
@@ -406,6 +403,12 @@ uprintf("kc: %s\n", get_keycode_string(keycode));
             tap_code16(LCTL(KC_F)); // Send Ctrl + F to activate tmux-like behavior
          }
         return false;
+
+    case MY_COLON:
+        if (record->event.pressed) {
+            SEND_STRING(":"); // Send colon or semicolon based on OS
+        }
+        return false; // Skip all further processing of this key
 
     default:
       return true;
