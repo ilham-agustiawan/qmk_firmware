@@ -65,10 +65,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
     KC_LCTL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
-    QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
-    MO(CURSOR), KC_BSPC,                                                        LT(MOUSE,KC_SPC), MO(SYMBOL),
-    XXX, KC_ESC,                                                                KC_ENT, QK_REP,
-    XXX,XXX,                                                                    OSM(MOD_RSFT), KC_MEH
+           QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
+    MO(CURSOR), KC_BSPC,                                                                 LT(MOUSE,KC_SPC), MO(SYMBOL),
+    QK_REP, KC_ESC,                                                                      KC_ENT, QK_REP,
+    XXX,OSM(MOD_LSFT),                                                                    OSM(MOD_RSFT),XXX
   ),
 
   [CURSOR] = LAYOUT_5x6(
@@ -159,11 +159,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case QHOME_Z:
     case QHOME_SCLN:
     case QHOME_C:
-      return TAPPING_TERM + 40;
+      return TAPPING_TERM + 20;
 
-    case QHOME_V:
     case QHOME_M:
-      return TAPPING_TERM - 25;
+    case QHOME_V:
+    case QHOME_COMM:
+      return TAPPING_TERM - 20;
 
     default:
       return TAPPING_TERM;
@@ -206,6 +207,7 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
       case QHOME_RBC:    // Right Alt
         return FLOW_TAP_TERM;
 
+      case QHOME_V:      // Shift
       case QHOME_C:      // Control
       case QHOME_COMM:   // Control
         return FLOW_TAP_TERM - 25;
