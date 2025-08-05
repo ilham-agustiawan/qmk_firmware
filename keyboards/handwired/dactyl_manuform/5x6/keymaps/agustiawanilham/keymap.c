@@ -67,12 +67,12 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
            QHOME_PGUP, QHOME_PGDN,                                                          KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                                 LT(MOUSE,KC_SPC), MO(SYMBOL),
-    QK_REP, KC_ESC,                                                                      KC_ENT, QK_REP,
-    XXX,OSM(MOD_LSFT),                                                                    OSM(MOD_RSFT),XXX
+    KC_DEL, KC_ESC,                                                                  KC_ENT, KC_TAB,
+    XXX,QK_REP,                                                                         QK_REP,XXX
   ),
 
   [CURSOR] = LAYOUT_5x6(
-    _______,CG_LSWP,CG_LNRM,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
+    _______,_______,_______,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
     _______,MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                              _______,S(KC_TAB),KC_TAB,_______,_______,_______,
     CAPS_WORD,ALT_TAB,G(KC_TILD),_______,LEADER_TMUX,QK_REP,                        KC_LEFT,KC_DOWN, KC_UP,KC_RGHT,CAPS_WORD,_______,
     KC_CAPS,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        KC_HOME,KC_PGDN, KC_PGUP,KC_END,_______,_______,
@@ -85,7 +85,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_DOT,                        _______,_______,_______,_______,_______,_______,
         KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_SCLN, KC_QUES,                       BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
-        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_BSPC, KC_ENT, KC_SPC, KC_DEL, MY_COLON,_______,
+        KC_HASH, KC_CIRC, KC_EQL,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_LEFT,KC_DOWN, KC_UP,KC_RGHT, MY_COLON,_______,
         KC_TILD, KC_LT,   KC_PPLS, KC_MINS,  KC_GT,   KC_SLSH,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
                    KC_AMPR, KC_PIPE,                                                                _______ ,_______,
                           KC_COLN ,KC_PERC,                                                              _______,_______,
@@ -111,21 +111,21 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,_______,_______,_______,_______,                                   KC_MAIL,  KC_F7,     KC_F8,      KC_F9,     KC_F10,     KC_WSCH,
     _______,_______,_______,_______,_______,_______,                                   KC_CALC,  KC_F4,     KC_F5,      KC_F6,     KC_F11,     KC_WFAV,
     _______,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,           KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
-    _______,_______,                                                                                      KC_APP,  KC_HELP,
+    _______,_______,                                                                                      KC_VOLD, KC_VOLU,
     _______,_______,            _______,KC_MUTE,
     _______,_______,            _______,_______,
-    _______,_______,            KC_VOLU,KC_VOLD
+    _______,_______,            _______,_______
   ),
 
   [MOUSE] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
     _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
-    _______,KC_BTN3,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,KC_ACL0,KC_ACL1,KC_ACL2,_______,_______,
-    _______,KC_BTN4,KC_BTN5,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
-    _______,_______,                            _______ ,_______,
+    _______,_______,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,KC_ACL0,KC_ACL1,KC_ACL2,_______,_______,
+    _______,_______,_______,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
+    KC_BTN4,KC_BTN5,                            _______ ,_______,
     _______,KC_BTN1,            _______,_______,
     _______,KC_BTN2,            _______,_______,
-    _______,_______,            _______,_______
+    _______,KC_BTN3,            _______,_______
 
   ),
 };
