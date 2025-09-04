@@ -7,6 +7,7 @@ enum layers {
   FUNCTION,
   SYMBOL,
   MOUSE,
+  POINTER,
   WIN,
 };
 
@@ -51,46 +52,45 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
   [BASE] = LAYOUT_5x6(
     KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
     KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    KC_LCTL,    KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
+    MO(POINTER), KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
     OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
            QHOME_PGUP, QHOME_PGDN,                                                       KC_LBRC, QHOME_RBC,
     MO(CURSOR), KC_BSPC,                                                                 LT(MOUSE,KC_SPC), MO(SYMBOL),
-    KC_DEL, KC_ESC,                                                                  KC_ENT, KC_TAB,
-    XXX,QK_REP,                                                                         KC_TAB,XXX
+    KC_TAB, KC_ESC,                                                                     KC_ENT, KC_DEL,
+    XXX,QK_REP,                                                                         QK_REP,XXX
   ),
 
   [CURSOR] = LAYOUT_5x6(
     _______,_______,_______,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
-    G(KC_TILD),MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                           _______,S(KC_TAB),KC_TAB,_______,_______,_______,
-    CAPS_WORD,ALT_TAB,_______,KC_ENT,LEADER_TMUX,QK_REP,                           KC_LEFT,KC_DOWN, KC_UP,KC_RGHT,CAPS_WORD,_______,
-    KC_CAPS,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        KC_HOME,KC_PGDN, KC_PGUP,KC_END,_______,_______,
-    C(KC_LEFT),C(KC_RGHT),                                                                    _______,_______,
-    _______,_______,                                                                           QK_LLCK,_______,
-    _______,_______,                                                                           _______,_______,
-    _______,QK_BOOT,                                                                           _______,_______
+    G(KC_TILD),MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                           BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),_______,_______,
+    CAPS_WORD,ALT_TAB,G(KC_TILD),KC_ENT,LEADER_TMUX,QK_REP,                         KC_LEFT,KC_DOWN,KC_UP,KC_RGHT,CAPS_WORD,_______,
+    KC_CAPS,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        _______,_______,_______,_______,_______,_______,
+            C(KC_LEFT),C(KC_RGHT),                                                                    _______,_______,
+                _______,_______,                                                                 QK_LLCK,_______,
+                _______,_______,                                                                 _______,_______,
+                _______,QK_BOOT,                                                                 _______,_______
   ),
 
   [SYMBOL] = LAYOUT_5x6(
         KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_PPLS,                       _______,_______,_______,_______,_______,_______,
-        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_QUOT, KC_QUES,                       BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),CMD_PAL,_______,
-        KC_HASH, KC_CIRC, KC_DQT,  KC_UNDS,  KC_DLR,  KC_AT,                         KC_LEFT,KC_DOWN, KC_UP,KC_RGHT, MY_COLON,_______,
-        KC_TILD, KC_LT,   KC_EQL, KC_MINS,  KC_GT,    KC_SCLN,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
-                   KC_AMPR, KC_PIPE,                                                                _______ ,_______,
-                          KC_COLN,KC_PERC,                                                              _______,_______,
-                          _______,KC_DOT,                                                               _______,_______,
-                          _______,_______,                                                               _______,_______
+        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_QUOT, KC_QUES,                       KC_HOME,KC_PGDN,KC_PGUP,KC_END,CMD_PAL,_______,
+        KC_HASH, KC_CIRC, KC_DQT,  KC_MINS,  KC_DLR,  KC_AT,                         KC_LEFT,KC_DOWN, KC_UP,KC_RGHT, MY_COLON,_______,
+        KC_TILD, KC_LT,   KC_QUOT,  KC_UNDS,  KC_GT,   KC_EQL,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
+               KC_AMPR, KC_PIPE,                                                                _______ ,_______,
+                    KC_COLN,KC_PERC,                                                          _______,_______,
+                    _______,KC_DOT,                                                           _______,_______,
+                    _______,_______,                                                          _______,_______
   ),
 
   [NUMBER] = LAYOUT_5x6(
     _______,_______,_______,_______,_______,_______,                                 KC_TILD,  KC_DLR,   KC_HASH,   KC_AT,   KC_EXLM,    KC_CIRC,
-    _______,_______,_______,_______,_______,_______,                                 KC_LT,    KC_7,     KC_8,      KC_9,    KC_COLN,    KC_PERC,
-    _______,_______,_______,_______,_______,_______,                                 KC_GT,    KC_4,     KC_5,      KC_6,    KC_PMNS,    KC_PPLS,
-    _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,QK_LLCK,                                 KC_0,   KC_1,     KC_2,      KC_3,    KC_PSLS,    KC_PAST,
-    _______,_______,                                                                              KC_LPRN,  KC_RPRN,
-    _______,_______,            _______,_______,
-    _______,_______,            _______,_______,
-    _______,_______,            _______,_______
-
+    _______,_______,_______,_______,_______,_______,                                 KC_PLUS,    KC_7,     KC_8,    KC_9,    KC_ASTR,    KC_PERC,
+    _______,_______,_______,_______,_______,_______,                                 KC_MINS,    KC_4,     KC_5,    KC_6,    KC_ENT,     KC_PPLS,
+    _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,QK_LLCK,                                 KC_0,       KC_1,     KC_2,    KC_3,    KC_PSLS,    KC_PAST,
+            _______,_______,                                                                              KC_LPRN,  KC_RPRN,
+                _______,_______,                                                                     _______,_______,
+                _______,_______,                                                                     _______,_______,
+                _______,_______,                                                                     _______,_______
   ),
 
 
@@ -99,10 +99,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,_______,_______,_______,_______,                                   KC_MAIL,  KC_F7,     KC_F8,      KC_F9,     KC_F10,     KC_WSCH,
     _______,_______,_______,_______,_______,_______,                                   KC_CALC,  KC_F4,     KC_F5,      KC_F6,     KC_F11,     KC_WFAV,
     _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,_______,                                   KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
-    _______,_______,                                                                                      KC_VOLD, KC_VOLU,
-    _______,_______,            _______,KC_MUTE,
-    _______,_______,            _______,_______,
-    _______,_______,            _______,_______
+              _______,_______,                                                                                      KC_VOLD, KC_VOLU,
+                      _______,_______,                                                                KC_MUTE,_______,
+                      _______,_______,                                                                _______,_______,
+                      _______,_______,                                                                _______,_______
   ),
 
   [MOUSE] = LAYOUT_5x6(
@@ -111,6 +111,17 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     _______,_______,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,KC_ACL0,KC_ACL1,KC_ACL2,_______,_______,
     _______,_______,_______,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
     KC_BTN4,KC_BTN5,                            _______ ,_______,
+    _______,KC_BTN1,            _______,_______,
+    _______,KC_BTN2,            _______,_______,
+    _______,KC_BTN3,            _______,_______
+  ),
+
+  [POINTER] = LAYOUT_5x6(
+    _______,G(KC_TILD),_______,_______,_______,_______,                        _______,  _______,   _______,   _______,   _______,    _______,
+    _______,G(KC_Q),G(KC_W),_______,_______,_______,                           KC_PLUS,    KC_7,     KC_8,      KC_9,    KC_ASTR,   KC_SLSH,
+    _______,G(KC_A),G(KC_S),_______,G(KC_F),_______,                           KC_MINS,    KC_4,     KC_5,      KC_6,    MY_COLON,  KC_PERC,
+    _______,_______,G(KC_X),G(KC_C),G(KC_V),_______,                          KC_0,       KC_1,     KC_2,      KC_3,    KC_SLSH,    KC_PAST,
+    _______,_______,                                                                    _______ ,_______,
     _______,KC_BTN1,            _______,_______,
     _______,KC_BTN2,            _______,_______,
     _______,KC_BTN3,            _______,_______
@@ -149,12 +160,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
     case QHOME_SCLN:
     case QHOME_C:
+    case QHOME_V:
+    case QHOME_COMM:
       return TAPPING_TERM - 10;
 
     case QHOME_M:
-    case QHOME_V:
-    case QHOME_COMM:
-      return TAPPING_TERM - 20;
+      return TAPPING_TERM - 25;
 
     default:
       return TAPPING_TERM;
