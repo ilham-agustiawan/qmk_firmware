@@ -13,7 +13,7 @@
 // #define QUICK_TAP_TERM 0
 // #define QUICK_TAP_TERM_PER_KEY
 
-#define TAPPING_TERM 200
+#define TAPPING_TERM 175
 #define TAPPING_TERM_PER_KEY
 #define FLOW_TAP_TERM 100
 #define CHORDAL_HOLD
@@ -39,7 +39,7 @@
 #define LAYER_STATE_8BIT
 
 #define LAYER_LOCK_IDLE_TIMEOUT 60000  // Turn off after 60 seconds.
-
+                                       //
 // Set the mouse settings to a comfortable speed/accuracy trade-off,
 // assuming a screen refresh rate of 60 Htz or higher
 // The default is 50. This makes the mouse ~3 times faster and more accurate

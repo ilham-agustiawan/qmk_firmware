@@ -25,6 +25,8 @@ enum custom_keycodes {
   LEADER_TMUX,                // custom keycode for leader key to activate tmux-like behavior
   BSPC_WORD,
   MY_COLON,
+  MY_NAV_LEFT,
+  MY_NAV_RIGHT,
 };
 
 // Home row mods for QWERTY layer for windows and linux
@@ -33,100 +35,100 @@ enum custom_keycodes {
 #define QHOME_C LCTL_T(KC_C)
 #define QHOME_V LSFT_T(KC_V)
 #define QHOME_B HYPR_T(KC_B)
-#define QHOME_PGUP LT(FUNCTION,KC_PGUP)
-#define QHOME_PGDN LT(NUMBER,KC_PGDN)
 
 #define QHOME_N    HYPR_T(KC_N)
 #define QHOME_M    RSFT_T(KC_M)
 #define QHOME_COMM CTL_T(KC_COMM)
 #define QHOME_DOT  ALT_T(KC_DOT)
-#define QHOME_RBC  RALT_T(KC_RBRC)
 #define QHOME_SCLN LGUI_T(KC_SCLN)
+
+#define QHOME_RBC  RALT_T(KC_RBRC)
 #define QHOME_LBRC LT(MOUSE,KC_LBRC)
+
+#define FUN_BSPC LT(FUNCTION, KC_BSPC)
 
 #define CAPS_WORD QK_CAPS_WORD_TOGGLE
 
 
 // clang-format off
-const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
-  [BASE] = LAYOUT_5x6(
-    KC_EQL,  KC_1,   KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,   KC_7,   KC_8,   KC_9,  KC_0,  KC_MINS,
-    KC_TAB,  KC_Q,   KC_W,     KC_E,     KC_R,     KC_T,                         KC_Y,   KC_U,   KC_I,   KC_O,  KC_P,  KC_BSLS,
-    MO(POINTER), KC_A,   KC_S,     KC_D,     KC_F,     KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,  QHOME_SCLN, KC_QUOT,
-    OSM(MOD_LSFT), QHOME_Z,   QHOME_X,  QHOME_C,  QHOME_V,  QHOME_B,             QHOME_N, QHOME_M,  QHOME_COMM,QHOME_DOT ,KC_SLSH,OSM(MOD_RSFT),
-           QHOME_PGUP, QHOME_PGDN,                                                       KC_LBRC, QHOME_RBC,
-    MO(CURSOR), KC_BSPC,                                                                 LT(MOUSE,KC_SPC), MO(SYMBOL),
-    KC_TAB, KC_ESC,                                                                     KC_ENT, KC_DEL,
-    XXX,QK_REP,                                                                         QK_REP,XXX
-  ),
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [BASE] = LAYOUT_5x6(
+        KC_EQL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
+        MO(POINTER), KC_A, KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    QHOME_SCLN, KC_QUOT,
+        OSM(MOD_LSFT), QHOME_Z, QHOME_X, QHOME_C, QHOME_V, QHOME_B,                     QHOME_N, QHOME_M, QHOME_COMM, QHOME_DOT, KC_SLSH, OSM(MOD_RSFT),
+                         KC_PGUP, KC_PGDN,                                                                   KC_LBRC, KC_RBRC,
+        MO(CURSOR), LT(NUMBER, KC_BSPC),                                                          LT(NUMBER, KC_SPC), MO(SYMBOL),
+        LT(FUNCTION, KC_DEL),KC_ESC,                                                                       LT(MOUSE, KC_ENT), QK_REP,
+        XXX,        XXX,                                                                           XXX, XXX
+    ),
 
   [CURSOR] = LAYOUT_5x6(
-    _______,_______,_______,TOG_MAC_LINUX,_______,_______,                          _______,_______,_______,_______,_______,_______,
-    G(KC_TILD),MY_CLOSE,C(KC_W),MY_COPY,MY_PASTE,_______,                           BSPC_WORD, S(KC_TAB), KC_TAB ,C(KC_ENT),_______,_______,
-    CAPS_WORD,ALT_TAB,G(KC_TILD),KC_ENT,LEADER_TMUX,QK_REP,                         KC_LEFT,KC_DOWN,KC_UP,KC_RGHT,CAPS_WORD,_______,
-    KC_CAPS,OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_LCTL),OSM(MOD_LSFT),_______,        _______,_______,_______,_______,_______,_______,
-            C(KC_LEFT),C(KC_RGHT),                                                                    _______,_______,
-                _______,_______,                                                                 QK_LLCK,_______,
-                _______,_______,                                                                 _______,_______,
-                _______,QK_BOOT,                                                                 _______,_______
-  ),
+        _______,   _______, _______, _______, _______, _______,                               _______, _______, _______, _______, _______, _______,
+        _______,   _______, C(KC_W), MY_COPY, MY_PASTE, TT(FUNCTION),                         BSPC_WORD, S(KC_TAB), KC_TAB, KC_DEL, _______, _______,
+        CAPS_WORD, ALT_TAB,  G(KC_TILD), TT(NUMBER), LEADER_TMUX, KC_ENTER,                    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, CAPS_WORD, _______,
+        KC_CAPS,  OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT), _______,        KC_HOME, KC_PGDN, KC_PGUP, KC_END,   _______, _______,
+                         _______, _______,                                                                     _______, _______,
+        _______,          _______,                                                                     _______, _______,
+        _______,          TOG_MAC_LINUX,                                                               _______, _______,
+        _______,          QK_BOOT,                                                                     _______, _______
+    ),
 
   [SYMBOL] = LAYOUT_5x6(
-        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN,  KC_RBRC, KC_PPLS,                       _______,_______,_______,_______,_______,_______,
-        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR,  KC_QUOT, KC_QUES,                       KC_HOME,KC_PGDN,KC_PGUP,KC_END,CMD_PAL,_______,
-        KC_HASH, KC_CIRC, KC_DQT,  KC_MINS,  KC_DLR,  KC_AT,                         KC_LEFT,KC_DOWN, KC_UP,KC_RGHT, MY_COLON,_______,
-        KC_TILD, KC_LT,   KC_QUOT,  KC_UNDS,  KC_GT,   KC_EQL,                       KC_ESC, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT), OSM(MOD_RGUI), _______,
-               KC_AMPR, KC_PIPE,                                                                _______ ,_______,
-                    KC_COLN,KC_PERC,                                                          _______,_______,
-                    _______,KC_DOT,                                                           _______,_______,
-                    _______,_______,                                                          _______,_______
-  ),
+        KC_GRV,  KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_PPLS,                            _______, _______, _______, _______, _______, _______,
+        KC_EXLM, KC_ASTR, KC_LCBR, KC_RCBR, KC_QUOT, KC_QUES,                            KC_BSPC, KC_PGDN, KC_PGUP, KC_DEL,  CMD_PAL, _______,
+        KC_HASH, KC_CIRC, KC_DQT,  KC_MINS, KC_DLR,  KC_AT,                              KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, MY_COLON, _______,
+        KC_TILD, KC_LT,   KC_QUOT, KC_UNDS, KC_GT,   KC_EQL,                             KC_ESC,  KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, _______, 
+             KC_AMPR, KC_PIPE,                                                                     _______, _______,
+                KC_COLN, KC_PERC,                                                                     _______, _______,
+                _______, KC_DOT,                                                                      _______, _______,
+                _______, _______,                                                                     _______, _______
+    ),
 
   [NUMBER] = LAYOUT_5x6(
-    _______,_______,_______,_______,_______,_______,                                 KC_TILD,  KC_DLR,   KC_HASH,   KC_AT,   KC_EXLM,    KC_CIRC,
-    _______,_______,_______,_______,_______,_______,                                 KC_PLUS,    KC_7,     KC_8,    KC_9,    KC_ASTR,    KC_PERC,
-    _______,_______,_______,_______,_______,_______,                                 KC_MINS,    KC_4,     KC_5,    KC_6,    KC_ENT,     KC_PPLS,
-    _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,QK_LLCK,                                 KC_0,       KC_1,     KC_2,    KC_3,    KC_PSLS,    KC_PAST,
-            _______,_______,                                                                              KC_LPRN,  KC_RPRN,
-                _______,_______,                                                                     _______,_______,
-                _______,_______,                                                                     _______,_______,
-                _______,_______,                                                                     _______,_______
-  ),
+        _______, _______, _______, _______, _______, _______,                              _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,                              KC_X,    KC_7,   KC_8,   KC_9,   KC_ASTR, _______,
+        _______, LEADER_TMUX, _______, _______, _______, _______,                          KC_MINS, KC_4,   KC_5,   KC_6,   KC_PLUS, _______,
+        _______, KC_RGUI, KC_RALT, KC_RCTL, KC_RSFT, _______,                              KC_0,    KC_1,   KC_2,   KC_3,   KC_SLSH,_______,
+                 _______, QK_LLCK,                                                                      _______, _______,
+            _______, _______,                                                                             _______,_______,
+            _______, _______,                                                                             _______,_______,
+            _______, _______,                                                                             _______,_______
+    ),
 
 
   [FUNCTION] = LAYOUT_5x6(
-    _______,_______,_______,_______,_______,_______,                                   KC_MSEL,  KC_MPLY,   KC_MPRV,    KC_MNXT,   KC_MSTP,    KC_CIRC,
-    _______,_______,_______,_______,_______,_______,                                   KC_MAIL,  KC_F7,     KC_F8,      KC_F9,     KC_F10,     KC_WSCH,
-    _______,_______,_______,_______,_______,_______,                                   KC_CALC,  KC_F4,     KC_F5,      KC_F6,     KC_F11,     KC_WFAV,
-    _______,KC_LGUI,KC_LALT,KC_LCTL,KC_LSFT,_______,                                   KC_MYCM,  KC_F1,     KC_F2,      KC_F3,     KC_F12,     KC_PSCR,
-              _______,_______,                                                                                      KC_VOLD, KC_VOLU,
-                      _______,_______,                                                                KC_MUTE,_______,
-                      _______,_______,                                                                _______,_______,
-                      _______,_______,                                                                _______,_______
-  ),
+        _______, _______, _______, _______, _______, _______,                               KC_MSEL, KC_MPLY, KC_MPRV, KC_MNXT, KC_MSTP, KC_CIRC,
+        _______, _______, _______, _______, _______, _______,                               _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+        _______, _______, _______, _______, _______, _______,                               _______, KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_PSCR,
+        _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, _______,                               _______, KC_F1,   KC_F2,   KC_F3,   KC_F12,  _______,
+             _______, _______,                                                                      KC_VOLD, KC_VOLU,
+             _______, _______,                                                                     KC_MUTE, _______,
+             _______, _______,                                                                     _______, _______,
+             _______, _______,                                                                     _______, _______
+    ),
 
   [MOUSE] = LAYOUT_5x6(
-    _______,_______,_______,_______,_______,_______,                   _______  , _______ , _______ , _______ ,_______ ,_______ ,
-    _______,_______,KC_WH_L,KC_MS_U,KC_WH_R,_______,                            _______,_______,_______,_______ ,_______,_______,
-    _______,_______,KC_MS_L,KC_MS_D,KC_MS_R,_______,                             _______,KC_ACL0,KC_ACL1,KC_ACL2,_______,_______,
-    _______,_______,_______,KC_WH_D,KC_WH_U,_______,                             _______,KC_RSFT,KC_RCTL,KC_RALT,KC_RGUI,_______,
-    KC_BTN4,KC_BTN5,                            _______ ,_______,
-    _______,KC_BTN1,            _______,_______,
-    _______,KC_BTN2,            _______,_______,
-    _______,KC_BTN3,            _______,_______
-  ),
+        _______, _______, _______, _______, _______, _______,                               _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, _______,                               _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______,                               _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+        _______, _______, _______, KC_WH_D, KC_WH_U, _______,                               _______, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, _______,
+        KC_BTN4, KC_BTN5,                                                                                           _______, _______,
+        _______, KC_BTN1,                                                                                           _______, _______,
+        KC_BTN3, KC_BTN2,                                                                                           _______, _______,
+        _______, _______,                                                                                           _______, _______
+    ),
 
   [POINTER] = LAYOUT_5x6(
-    _______,G(KC_TILD),_______,_______,_______,_______,                        _______,  _______,   _______,   _______,   _______,    _______,
-    _______,G(KC_Q),G(KC_W),_______,_______,_______,                           KC_PLUS,    KC_7,     KC_8,      KC_9,    KC_ASTR,   KC_SLSH,
-    _______,G(KC_A),G(KC_S),_______,G(KC_F),_______,                           KC_MINS,    KC_4,     KC_5,      KC_6,    MY_COLON,  KC_PERC,
-    _______,_______,G(KC_X),G(KC_C),G(KC_V),_______,                          KC_0,       KC_1,     KC_2,      KC_3,    KC_SLSH,    KC_PAST,
-    _______,_______,                                                                    _______ ,_______,
-    _______,KC_BTN1,            _______,_______,
-    _______,KC_BTN2,            _______,_______,
-    _______,KC_BTN3,            _______,_______
-
-  ),
+        _______, _______, _______, _______, _______,  _______,                               _______, _______, _______, _______, _______, _______,
+        _______, MY_CLOSE,G(KC_W), _______, G(KC_R),  G(KC_T),                                  _______, _______, _______, _______, C(KC_P), _______,
+        _______, G(KC_A), G(KC_S), _______, G(KC_F),  _______,                                  C(KC_H), C(KC_J), C(KC_K), C(KC_L), _______, _______,
+        _______, _______, G(KC_X), MY_COPY, MY_PASTE, _______,                                  C(KC_N), _______, _______, _______, G(S(KC_SLSH)),_______,
+                         _______,_______,                                                                     MY_NAV_LEFT, MY_NAV_RIGHT,
+        _______, KC_BTN1,                                                                                     _______, _______,
+        KC_BTN3, KC_BTN2,                                                                                     _______, _______,
+        _______, _______,                                                                                     _______, _______
+    )
 };
 
 
@@ -156,15 +158,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QHOME_X:
     case QHOME_Z:
-      return TAPPING_TERM + 20;
-
-    case QHOME_SCLN:
     case QHOME_C:
-    case QHOME_V:
-    case QHOME_COMM:
-      return TAPPING_TERM - 10;
+    case FUN_BSPC:
+      return TAPPING_TERM + 25;
 
     case QHOME_M:
+    case QHOME_V:
       return TAPPING_TERM - 25;
 
     default:
@@ -183,16 +182,25 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   }
 }
 
-/* bool get_chordal_hold( */
-/*         uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, */
-/*         uint16_t other_keycode, keyrecord_t* other_record) { */
-/*   switch (tap_hold_keycode) { */
-/*     case QHOME_V: */
-/*     case QHOME_M: */
-/*       return true; */
-/*   } */
-/*   return get_chordal_hold_default(tap_hold_record, other_record); */
-/* } */
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+                      uint16_t other_keycode, keyrecord_t* other_record) {
+    // Exceptionally allow some one-handed chords for hotkeys.
+    switch (tap_hold_keycode) {
+        case QHOME_Z:
+            if (other_keycode == KC_C || other_keycode == KC_V || other_keycode == KC_F) {
+                return true;
+            }
+            break;
+
+        case QHOME_SCLN:
+            if (other_keycode == KC_N) {
+                return true;
+            }
+            break;
+    }
+    // Otherwise defer to the opposite hands rule.
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}
 
 uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
                            uint16_t prev_keycode) {
@@ -205,7 +213,6 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
       case QHOME_SCLN:   // GUI
       case QHOME_X:      // Alt
       case QHOME_DOT:    // Alt
-      case QHOME_RBC:    // Right Alt
         return FLOW_TAP_TERM;
 
       case QHOME_C:      // Control
@@ -410,6 +417,28 @@ uprintf("kc: %s\n", get_keycode_string(keycode));
             SEND_STRING(":"); // Send colon or semicolon based on OS
         }
         return false; // Skip all further processing of this key
+    case MY_NAV_LEFT:
+        if (record->event.pressed) {
+            if (is_mac_mode) {
+                // macOS: ctrl + Left Arrow
+                tap_code16(LCTL(KC_LEFT));
+            } else {
+                 // windows: gui + ctrl + Left Arrow
+                tap_code16(LGUI(LCTL(KC_LEFT)));
+            }
+       }
+       return false; // Skip all further processing of this key
+    case MY_NAV_RIGHT:
+        if (record->event.pressed) {
+            if (is_mac_mode) {
+                // macOS: ctrl + Right Arrow
+                tap_code16(LCTL(KC_RGHT));
+            } else {
+                 // windows: gui + ctrl + Right Arrow
+                tap_code16(LGUI(LCTL(KC_RGHT)));
+            }
+       }
+       return false; // Skip all further processing of this key
 
     default:
       return true;
